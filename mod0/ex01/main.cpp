@@ -46,7 +46,7 @@ int main(void)
 	PhoneBook book;
 	std::string input;
 
-	do
+	while (std::cin)
 	{
 		std::cout << "Give a command: ";
 		if (!std::getline(std::cin, input))
@@ -64,7 +64,6 @@ int main(void)
 		else
 			std::cout << "Invalid command\n";
 	}
-	while (input != "EXIT" && std::cin);
 
 	return 0;
 }
