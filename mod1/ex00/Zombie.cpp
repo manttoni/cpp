@@ -8,5 +8,5 @@ Zombie::Zombie(std::string name)
 
 void Zombie::announce(void)
 {
-	std::cout << name << ": BraiiiiiiinnnzzzZ...";
+	std::cout << name << ": BraiiiiiiinnnzzzZ...\n";
 }
