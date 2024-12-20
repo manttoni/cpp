@@ -49,9 +49,7 @@ int main(void)
 	while (std::cin)
 	{
 		std::cout << "Give a command: ";
-		if (!std::getline(std::cin, input))
-			break;
-		if (input == "EXIT")
+		if (!std::getline(std::cin, input) || input == "EXIT")
 			break;
 		else if (input == "ADD")
 		{
