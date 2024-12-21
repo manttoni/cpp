@@ -2,19 +2,9 @@
 #include "HumanB.hpp"
 #include <iostream>
 
-HumanB::HumanB(const std::string &name) : name(name)
-{
-	this->name = name;
-	//HumanB::setWeapon(Weapon("empty"));
-}
+HumanB::HumanB(const std::string &name) : name(name) {}
 
-HumanB::HumanB(const std::string &name, const Weapon &weapon) : name(name), weapon(weapon)
-{
-	this->name = name;
-	HumanB::setWeapon(Weapon("empty"));
-}
-
-void HumanB::setWeapon(const Weapon &weapon)
+void HumanB::setWeapon(Weapon &weapon)
 {
 	this->weapon = weapon;
 }

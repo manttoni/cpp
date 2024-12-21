@@ -8,7 +8,7 @@ class HumanB
 		Weapon weapon;
 	public:
 		HumanB(const std::string &name);
-		HumanB(const std::string &name, const Weapon &weapon);
+		HumanB(const std::string &name, Weapon &weapon);
 		void attack(void);
-		void setWeapon(const Weapon &weapon);
+		void setWeapon(Weapon &weapon);
 };
