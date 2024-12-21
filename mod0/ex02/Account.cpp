@@ -109,20 +109,16 @@ void	Account::displayStatus( void ) const
 
 void    Account::_displayTimestamp(void)
 {
-    /*
-        // Get current time using std::chrono
     auto now = std::chrono::system_clock::now();
     std::time_t t = std::chrono::system_clock::to_time_t(now);
 
-    // Convert to tm struct to get local time
-    std::tm tm = *std::localtime(&t);
+	std::tm tm = *std::localtime(&t);
 
-    // Format the timestamp as YYYYMMDD_HHMMSS
     std::stringstream ss;
     ss << std::put_time(&tm, "[%Y%m%d_%H%M%S]");
 
-    std::cout << ss.str();*/
-    std::cout << "[19920104_091532]";
+    std::cout << ss.str();
+    //std::cout << "[19920104_091532]";
 }
 
 Account::~Account()
