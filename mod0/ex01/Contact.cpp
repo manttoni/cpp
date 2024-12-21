@@ -10,7 +10,7 @@ Contact::Contact(std::string first, std::string last, std::string nick, std::str
 	this->last = last;
 	this->nick = nick;
 	this->nbr = nbr;
-	this->secret = secret;
+	this->secret =  secret;
 }
 
 std::string Contact::getFirst() const

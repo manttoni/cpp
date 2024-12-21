@@ -22,7 +22,7 @@ static void form_column(std::string text)
 		std::cout << text.substr(0, 9) + ".";
 	else
 	{
-		for (int i = 0; i < 10 - text.length(); ++i)
+		for (int i = 0; i < 10 - (int)text.length(); ++i)
 			std::cout << " ";
 		std::cout << text;
 	}
