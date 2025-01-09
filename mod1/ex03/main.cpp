@@ -1,6 +1,8 @@
 #include "Weapon.hpp"
 #include "HumanA.hpp"
 #include "HumanB.hpp"
+
+
 int main()
 {
 	{
@@ -25,8 +27,8 @@ int main()
 
 
 
-
 /*
+
 int main(void)
 {
 	Weapon axe = Weapon("axe");

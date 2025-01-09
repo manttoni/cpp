@@ -1,3 +1,6 @@
+#ifndef HUMANB_HPP
+#define HUMANB_HPP
+
 #include "Weapon.hpp"
 #include <string>
 
@@ -11,3 +14,4 @@ class HumanB
 		void attack(void);
 		void setWeapon(Weapon &weapon);
 };
+#endif

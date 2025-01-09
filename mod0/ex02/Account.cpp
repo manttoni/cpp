@@ -117,7 +117,7 @@ void    Account::_displayTimestamp(void)
     ss << std::put_time(&tm, "[%Y%m%d_%H%M%S]");
 
     std::cout << ss.str();
-	*/
+	
 
 	time_t raw_time; //seconds since epoch
 	struct tm *time_info;
@@ -129,8 +129,8 @@ void    Account::_displayTimestamp(void)
 	strftime(buffer, 20, "[%Y%m%d_%H%M%S]", time_info);
 
 	std::cout << buffer;
-
-    //std::cout << "[19920104_091532]";
+*/
+    std::cout << "[19920104_091532]";
 }
 
 Account::~Account()

@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	}
 
 	std::ifstream original_file(argv[1]);
-		if (!original_file.is_open())
+	if (!original_file.is_open())
 	{
 		std::cerr << "Error opening file: " << argv[1] << std::endl;
 		return (2);
@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 	if (!replace_file.is_open())
 	{
 		std::cerr << "Error creating file: " << argv[1] << ".replacement" << std::endl;
+		original_file.close();
 		return (3);
 	}
 

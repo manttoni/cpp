@@ -3,3 +3,4 @@ all:
 
 clean:
 	rm -f sed_is_for_losers
+	rm -f *.replace
