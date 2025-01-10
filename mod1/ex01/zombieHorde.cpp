@@ -8,6 +8,6 @@ Zombie *zombieHorde(int N, std::string name)
 		std::cout << "Memory allocation failed" << std::endl;
 	else
 		for (int i = 0; i < N; ++i)
-			horde[i].setname(name);
+			horde[i].setName(name);
 	return horde;
 }

@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	while (getline(original_file, line))
 	{
 		ft_replace(line, to_replace, replacement);
-		replace_file << line << std::endl;
+		replace_file << line << ((original_file.peek() == EOF) ? "" : "\n");
 	}
 
 	original_file.close();

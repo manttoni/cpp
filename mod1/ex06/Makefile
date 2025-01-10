@@ -1,5 +1,5 @@
 all:
-	c++ -Wall -Wextra -Werror *.cpp -o harl_filter
+	c++ -Wall -Wextra -Werror *.cpp -o harlFilter
 
 clean:
-	rm -f harl_filter
+	rm -f harlFilter

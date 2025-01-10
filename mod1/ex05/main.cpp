@@ -9,14 +9,15 @@ int main(int argc, char **argv)
 		std::cerr << "Too many arguments\n";
 		return (1);
 	}
-	std::string level = "DEBUG";
-	if (argc == 2)
-	{
-		level = (std::string) argv[1];
-	}
-
 	Harl harl = Harl();
-	harl.complain(level);
+	if (argc == 2)
+		harl.complain(std::string(argv[1]));
+	else
+	{
+		std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
+		for (int i = 0; i < 15; ++i)
+			harl.complain(levels[i%4]);
+	}
 
 	return (0);
 }
