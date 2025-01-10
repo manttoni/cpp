@@ -31,19 +31,21 @@ int main(int argc, char **argv)
 	std::ofstream replace_file(std::string(argv[1]) + ".replace");
 	if (!replace_file.is_open())
 	{
-		std::cerr << "Error creating file: " << argv[1] << ".replacement" << std::endl;
+		std::cerr << "Error creating file: " << argv[1] << ".replace" << std::endl;
 		original_file.close();
 		return (3);
 	}
 
-	std::string line;
+	std::string line = "\n";
 	std::string to_replace = (std::string)argv[2];
 	std::string replacement = (std::string)argv[3];
 
 	while (getline(original_file, line))
 	{
+		if (line != "\n")
+			replace_file << std::endl;
 		ft_replace(line, to_replace, replacement);
-		replace_file << line << ((original_file.peek() == EOF) ? "" : "\n");
+		replace_file << line;
 	}
 
 	original_file.close();
