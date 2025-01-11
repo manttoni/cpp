@@ -79,5 +79,5 @@ float Fixed::toFloat(void) const
 // Returns an int
 int Fixed::toInt(void) const
 {
-	return value >> 8;
+	return value >> fract_bits;
 }
