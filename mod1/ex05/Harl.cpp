@@ -31,7 +31,7 @@ void Harl::complain(std::string level)
 	for (i = 0; i < 4; ++i)
 		if (levels[i] == level)
 			break;
-	void (Harl::*func)(void);
+	void (Harl::*func)(void) = nullptr;
 	switch (i)
 	{
 		case 0:
@@ -48,9 +48,9 @@ void Harl::complain(std::string level)
 			break;
 		default:
 			std::cout << "Not a level\n";
-			func = nullptr;
 	}
-	(this->*func)();
+	if (func)
+		(this->*func)();
 }
 
 Harl::~Harl() {}
