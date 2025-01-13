@@ -23,10 +23,11 @@ Fixed::Fixed(const Fixed& other)
 Fixed::Fixed(const int value)
 {
 	std::cout << "Integer constructor called" << std::endl;
-	this->value = value << 8;
+	this->value = value << fract_bits;
 }
 
 // With initial floating point value
+// int value has to be maximum 24 bits long, otherwise it will be truncated
 Fixed::Fixed(const float value)
 {
 	std::cout << "Float constructor called" << std::endl;
@@ -74,7 +75,7 @@ void Fixed::setRawBits(int newValue)
 // Returns a float
 float Fixed::toFloat(void) const
 {
-	return value / pow(2, fract_bits);
+	return value / (float)(1 << fract_bits);
 }
 
 // Returns an int

@@ -1,7 +1,7 @@
 #include "Fixed.hpp"
 #include <iostream>
 
-// Shared between all Fixed objects. Cannot change = is constant
+// Shared between all Fixed objects
 const int Fixed::fract_bits = 8;
 
 // Default

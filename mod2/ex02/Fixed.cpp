@@ -177,7 +177,7 @@ Fixed& Fixed::max(Fixed& a, Fixed& b)
 // Returns a float
 float Fixed::toFloat(void) const
 {
-	return value / pow(2, fract_bits);
+	return value / (float)(1 << fract_bits);
 }
 
 // Returns an int
