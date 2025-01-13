@@ -19,13 +19,9 @@ Fixed::Fixed(const Fixed& other)
 }
 
 // With initial integer value
+// value has to be maximum 24 bits long, otherwise it will be truncated
 Fixed::Fixed(const int value)
 {
-	int tmp = value;
-	tmp <<= 8;
-	tmp >>= 8;
-	if (tmp != value)
-		throw std::runtime_error("value truncated");
 	std::cout << "Integer constructor called" << std::endl;
 	this->value = value << 8;
 }
