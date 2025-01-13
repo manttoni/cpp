@@ -21,14 +21,14 @@ Fixed::Fixed(const Fixed& other)
 // With initial integer value
 Fixed::Fixed(const int value)
 {
-	std::cout << "Integer constructor called" << std::endl;
-	this->value = value << 8;
+	std::cout << "Integer constructor called with value " << value << std::endl;
+	this->value = value << fract_bits;
 }
 
 // With initial floating point value
 Fixed::Fixed(const float value)
 {
-	std::cout << "Float constructor called" << std::endl;
+	std::cout << "Float constructor called with value " << value << std::endl;
 	this->value = value * (1 << fract_bits) + 0.5;
 }
 
@@ -128,7 +128,7 @@ std::ostream& operator<<(std::ostream& os, const Fixed& fixed)
 // Destructor
 Fixed::~Fixed() 
 {
-	std::cout << "Destructor called" << std::endl;
+	std::cout << "Destructor called for Fixed with value " << toFloat() << std::endl;
 }
 
 // Getter
