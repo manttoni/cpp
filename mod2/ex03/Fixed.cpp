@@ -23,7 +23,7 @@ Fixed::Fixed(const int value)
 // With initial floating point value
 Fixed::Fixed(const float value)
 {
-	this->value = value * (1 << fract_bits) + 0.5;
+	this->value = round(value * (1 << fract_bits));
 }
 
 // Operators
@@ -35,22 +35,22 @@ Fixed Fixed::operator=(const Fixed& other)
 	return *this;
 }
 
-bool Fixed::operator>(const Fixed& other)
+bool Fixed::operator>(const Fixed& other) const
 {
 	return this->value > other.value;
 }
 
-bool Fixed::operator<(const Fixed& other)
+bool Fixed::operator<(const Fixed& other) const
 {
 	return this->value < other.value;
 }
 
-bool Fixed::operator>=(const Fixed& other)
+bool Fixed::operator>=(const Fixed& other) const
 {
 	return this->value >= other.value;
 }
 
-bool Fixed::operator<=(const Fixed& other)
+bool Fixed::operator<=(const Fixed& other) const
 {
 	return this->value <= other.value;
 }
@@ -60,29 +60,39 @@ bool Fixed::operator==(const Fixed& other) const
 	return this->value == other.value;
 }
 
-bool Fixed::operator!=(const Fixed& other)
+bool Fixed::operator!=(const Fixed& other) const
 {
 	return this->value != other.value;
 }
 
-Fixed Fixed::operator+(const Fixed& other)
+
+// Arithmetics
+Fixed Fixed::operator+(const Fixed& other) const
 {
-	return Fixed(this->value + other.value);
+	Fixed tmp;
+	tmp.setRawBits(value + other.value);
+	return tmp;
 }
 
-Fixed Fixed::operator-(const Fixed& other)
+Fixed Fixed::operator-(const Fixed& other) const
 {
-	return Fixed(this->value - other.value);
+	Fixed tmp;
+	tmp.setRawBits(value - other.value);
+	return tmp;
 }
 
-Fixed Fixed::operator*(const Fixed& other)
+Fixed Fixed::operator*(const Fixed& other) const
 {
-	return Fixed(toFloat() * other.toFloat());
+	Fixed tmp;
+	tmp.setRawBits(round(value * other.toFloat()));
+	return tmp;
 }
 
-Fixed Fixed::operator/(const Fixed& other)
+Fixed Fixed::operator/(const Fixed& other) const
 {
-	return Fixed(toFloat() / other.toFloat());
+	Fixed tmp;
+	tmp.setRawBits(round(value / other.toFloat()));
+	return tmp;
 }
 
 Fixed Fixed::operator++(int)

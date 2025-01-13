@@ -3,10 +3,12 @@
 
 int main(void)
 {
-	Point a = Point(0, 0);
-	Point b = Point(10, 10);
-	Point c = Point(10, 0);
+	Point a = Point(-10, -10);
+	Point b = Point(10, -10);
+	Point c = Point(0, 10);
 
-	std::cout << "True or no: " << bsp(a, b, c, Point(2, 1)) << std::endl;
+	bool inside = bsp(a, b, c, Point(0, -9.99));
+
+	std::cout << "Point inside triangle: " << inside << std::endl;
 	return 0;
 }

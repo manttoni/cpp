@@ -3,6 +3,7 @@
 #define FIXED_HPP
 
 #include <ostream>
+#include <cmath>
 
 class Fixed
 {
@@ -15,16 +16,16 @@ class Fixed
 		Fixed(const int value);
 		Fixed(const float value);
 		Fixed operator=(const Fixed& other);
-		bool operator>(const Fixed& other);
-		bool operator<(const Fixed& other);
-		bool operator>=(const Fixed& other);
-		bool operator<=(const Fixed& other);
+		bool operator>(const Fixed& other) const;
+		bool operator<(const Fixed& other) const;
+		bool operator>=(const Fixed& other) const;
+		bool operator<=(const Fixed& other) const;
 		bool operator==(const Fixed& other) const;
-		bool operator!=(const Fixed& other);
-		Fixed operator+(const Fixed& other);
-		Fixed operator-(const Fixed& other);
-		Fixed operator*(const Fixed& other);
-		Fixed operator/(const Fixed& other);
+		bool operator!=(const Fixed& other) const;
+		Fixed operator+(const Fixed& other) const;
+		Fixed operator-(const Fixed& other) const;
+		Fixed operator*(const Fixed& other) const;
+		Fixed operator/(const Fixed& other) const;
 		Fixed operator++(int);
 		Fixed operator--(int);
 		Fixed& operator++();
