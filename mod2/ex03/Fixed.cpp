@@ -34,7 +34,7 @@ Fixed::Fixed(const float value)
 
 // Operators
 // Copy assignment operator
-Fixed& Fixed::operator=(const Fixed& other)
+Fixed Fixed::operator=(const Fixed& other)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &other)
@@ -62,7 +62,7 @@ bool Fixed::operator<=(const Fixed& other)
 	return this->value <= other.value;
 }
 
-bool Fixed::operator==(const Fixed& other)
+bool Fixed::operator==(const Fixed& other) const
 {
 	return this->value == other.value;
 }

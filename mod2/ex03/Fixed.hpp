@@ -1,3 +1,4 @@
+#pragma once
 #ifndef FIXED_HPP
 #define FIXED_HPP
 
@@ -13,12 +14,12 @@ class Fixed
 		Fixed(const Fixed& other);
 		Fixed(const int value);
 		Fixed(const float value);
-		Fixed& operator=(const Fixed& other);
+		Fixed operator=(const Fixed& other);
 		bool operator>(const Fixed& other);
 		bool operator<(const Fixed& other);
 		bool operator>=(const Fixed& other);
 		bool operator<=(const Fixed& other);
-		bool operator==(const Fixed& other);
+		bool operator==(const Fixed& other) const;
 		bool operator!=(const Fixed& other);
 		Fixed operator+(const Fixed& other);
 		Fixed operator-(const Fixed& other);

@@ -1,23 +1,23 @@
 #include "Point.hpp"
 #include <cmath>
 
-static float sideLength(Point& const a, Point& const b)
+static float sideLength(const Point& a, const Point& b)
 {
-	float hor = a.getX() - b.getX();
-	float ver = a.getY() - b.getY();
+	float hor = a.getX().toFloat() - b.getX().toFloat();
+	float ver = a.getY().toFloat() - b.getY().toFloat();
 	return hypot(hor, ver);
 }
 
-static float calcTrianglePerimeter(Point& const a, Point& const b, Point& const c)
+static float calcTrianglePerimeter(const Point& a, const Point& b, const Point& c)
 {
 	float perimeter = sideLength(a, b) + sideLength(b, c) + sideLength(c, a);
 	return perimeter;
 }
 
-static float calcTriangleArea(Point& const a, Point& const b, Point& const c)
+static float calcTriangleArea(const Point& a, const Point& b, const Point& c)
 {
 	float s = calcTrianglePerimeter(a, b, c) / 2;
-	return sqrt(s * (s - sideLenth(a, b)) * (s - sideLength(b, c)) * (s - sideLength(c, a)));
+	return sqrt(s * (s - sideLength(a, b)) * (s - sideLength(b, c)) * (s - sideLength(c, a)));
 }
 
 bool bsp( Point const a, Point const b, Point const c, Point const point)
@@ -32,6 +32,6 @@ bool bsp( Point const a, Point const b, Point const c, Point const point)
 
 	if (area != areaA + areaB + areaC)
 		return false;
-		
+
 	return true;
 }

@@ -6,17 +6,12 @@ Point::Point(const float x, const float y) : x(Fixed(x)), y(Fixed(y)) {}
 
 Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
-Point& Point::operator=(const Point& point)
+Point& Point::operator=(Point& point) const
 {
-	if (*this == point)
-		return *this;
-	this->x = point.getX();
-	this->y = point.getY();
-
-	return *this;
+	return point;
 }
 
-bool Point::operator==(const Point& point)
+bool Point::operator==(const Point& point) const
 {
 	return this->x == point.getX() && this->y == point.getY();
 }
