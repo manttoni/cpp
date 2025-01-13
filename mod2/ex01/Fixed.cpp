@@ -25,7 +25,7 @@ Fixed::Fixed(const int value)
 	tmp <<= 8;
 	tmp >>= 8;
 	if (tmp != value)
-		std::cout << "value changed" << std::endl;
+		throw std::runtime_error("value truncated");
 	std::cout << "Integer constructor called" << std::endl;
 	this->value = value << 8;
 }
