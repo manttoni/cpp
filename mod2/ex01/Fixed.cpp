@@ -21,6 +21,11 @@ Fixed::Fixed(const Fixed& other)
 // With initial integer value
 Fixed::Fixed(const int value)
 {
+	int tmp = value;
+	tmp <<= 8;
+	tmp >>= 8;
+	if (tmp != value)
+		std::cout << "value changed" << std::endl;
 	std::cout << "Integer constructor called" << std::endl;
 	this->value = value << 8;
 }
