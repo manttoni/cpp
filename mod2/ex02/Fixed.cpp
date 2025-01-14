@@ -92,7 +92,8 @@ Fixed Fixed::operator*(const Fixed& other) const
 	long tmp_value = value;
 	tmp_value *= other.value;
 	tmp_value >>= fract_bits;
-	Fixed tmp = Fixed((int)tmp_value);
+	Fixed tmp;
+	tmp.setRawBits((int)tmp_value);
 	return tmp;
 }
 
@@ -100,7 +101,8 @@ Fixed Fixed::operator/(const Fixed& other) const
 {
 	int tmp_value = (value / other.value);
 	tmp_value <<= fract_bits;
-	Fixed tmp = Fixed(tmp_value);
+	Fixed tmp;
+	tmp.setRawBits(tmp_value);
 	return tmp;
 }
 
