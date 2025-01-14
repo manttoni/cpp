@@ -83,15 +83,18 @@ Fixed Fixed::operator-(const Fixed& other) const
 
 Fixed Fixed::operator*(const Fixed& other) const
 {
-	Fixed tmp;
-	tmp.setRawBits(round(value * other.toFloat()));
+	long tmp_value = value;
+	tmp_value *= other.value;
+	tmp_value >>= fract_bits;
+	Fixed tmp = Fixed((int)tmp_value);
 	return tmp;
 }
 
 Fixed Fixed::operator/(const Fixed& other) const
 {
-	Fixed tmp;
-	tmp.setRawBits(round(value / other.toFloat()));
+	int tmp_value = (value / other.value);
+	tmp_value <<= fract_bits;
+	Fixed tmp = Fixed(tmp_value);
 	return tmp;
 }
 

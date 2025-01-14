@@ -72,24 +72,36 @@ bool Fixed::operator!=(const Fixed& other)
 	return this->value != other.value;
 }
 
-Fixed Fixed::operator+(const Fixed& other)
+// Arithmetics
+Fixed Fixed::operator+(const Fixed& other) const
 {
-	return Fixed(this->value + other.value);
+	Fixed tmp;
+	tmp.setRawBits(value + other.value);
+	return tmp;
 }
 
-Fixed Fixed::operator-(const Fixed& other)
+Fixed Fixed::operator-(const Fixed& other) const
 {
-	return Fixed(this->value - other.value);
+	Fixed tmp;
+	tmp.setRawBits(value - other.value);
+	return tmp;
 }
 
-Fixed Fixed::operator*(const Fixed& other)
+Fixed Fixed::operator*(const Fixed& other) const
 {
-	return Fixed(toFloat() * other.toFloat());
+	long tmp_value = value;
+	tmp_value *= other.value;
+	tmp_value >>= fract_bits;
+	Fixed tmp = Fixed((int)tmp_value);
+	return tmp;
 }
 
-Fixed Fixed::operator/(const Fixed& other)
+Fixed Fixed::operator/(const Fixed& other) const
 {
-	return Fixed(toFloat() / other.toFloat());
+	int tmp_value = (value / other.value);
+	tmp_value <<= fract_bits;
+	Fixed tmp = Fixed(tmp_value);
+	return tmp;
 }
 
 Fixed Fixed::operator++(int)
