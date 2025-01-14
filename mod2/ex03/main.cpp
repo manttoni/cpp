@@ -15,9 +15,15 @@ void test(Point p)
 
 int main(void)
 {
+	std::cout << "These are not inside:" << std::endl;
 	test(Point(0, -9.99));
 	test(Point(100, 100));
 	test(Point(0,0));
 
+	std::cout << "These are inside:" << std::endl;
+	test(Point(1,1));
+	test(Point(1.1,1.1));
+	test(Point(1.9, 2.9));
+	
 	return 0;
 }
