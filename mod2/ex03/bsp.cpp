@@ -2,7 +2,7 @@
 
 static Fixed signedArea(const Point& a, const Point& b, const Point& c)
 {
-	return Fixed((a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX() * (a.getY() - b.getY())).toFloat());
+	return Fixed(a.getX() * (b.getY() - c.getY()) + b.getX() * (c.getY() - a.getY()) + c.getX() * (a.getY() - b.getY()));
 }
 
 bool bsp( Point const a, Point const b, Point const c, Point const point)
