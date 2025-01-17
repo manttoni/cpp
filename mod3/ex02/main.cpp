@@ -1,7 +1,7 @@
 #include <iostream>
-#include "ScavTrap.hpp"
+#include "FragTrap.hpp"
 
-void attackTest(ScavTrap& attacker, ScavTrap& defender)
+void attackTest(FragTrap& attacker, FragTrap& defender)
 {
     bool hasEnergy = attacker.getEnergy() > 0;
     attacker.attack("Defender");
@@ -12,13 +12,13 @@ void attackTest(ScavTrap& attacker, ScavTrap& defender)
 int main(void)
 {
     std::cout << std::endl << "--Testing constructors--" << std::endl;
-    ScavTrap a = ScavTrap("ScavTrap");
-    ScavTrap b;
+    FragTrap a = FragTrap("FragTrap");
+    FragTrap b;
     b = a;
-    ScavTrap c = ScavTrap(b);
+    FragTrap c = FragTrap(b);
 
-    ScavTrap attacker = ScavTrap("Attacker");
-    ScavTrap defender = ScavTrap("Defender");
+    FragTrap attacker = FragTrap("Attacker");
+    FragTrap defender = FragTrap("Defender");
 
     std::cout << std::endl << "--Created objects--" << std::endl;
     std::cout << a << std::endl;
@@ -28,16 +28,16 @@ int main(void)
     std::cout << defender << std::endl;
 
     std::cout << std::endl << "--Testing attack and takeDamage--" << std::endl;
-    for (int i = 0; i < 60; ++i)
+    for (int i = 0; i < 110; ++i)
         attackTest(attacker, defender);
 
     std::cout << std::endl << "--Testing repair--" << std::endl;
-    for (int i = 0; i < 60; ++i)
+    for (int i = 0; i < 110; ++i)
         defender.beRepaired(1);
 
-    std::cout << std::endl << "--Testing guardGate()--" << std::endl;
-    attacker.guardGate();
-    defender.guardGate();
+    std::cout << std::endl << "--Testing highFivesGuys()--" << std::endl;
+    attacker.highFivesGuys();
+    defender.highFivesGuys();
 
     std::cout << std::endl << "--End of main, calling destructors--" << std::endl;
     return 0;
