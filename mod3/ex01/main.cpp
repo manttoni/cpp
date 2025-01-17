@@ -35,6 +35,10 @@ int main(void)
     for (int i = 0; i < 60; ++i)
         defender.beRepaired(1);
 
+    std::cout << "--Testing guardGate()--" << std::endl;
+    attacker.guardGate();
+    defender.guardGate();
+
     std::cout << std::endl << "--End of main, calling destructors--" << std::endl;
     return 0;
 }
