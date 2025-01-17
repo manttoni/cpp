@@ -30,7 +30,7 @@ Fixed::Fixed(const float value)
 // Copy assignment operator
 Fixed Fixed::operator=(const Fixed& other)
 {
-	if (this != &other)
+	if (*this != other)
 		this->value = other.getRawBits();
 	return *this;
 }
@@ -101,6 +101,7 @@ Fixed Fixed::operator/(const Fixed& other) const
 	return tmp;
 }
 
+//post-increment/decrement
 Fixed Fixed::operator++(int)
 {
 	Fixed tmp = *this;
@@ -115,6 +116,7 @@ Fixed Fixed::operator--(int)
 	return tmp;
 }
 
+//pre-increment/decrement
 Fixed& Fixed::operator++()
 {
 	value += 1;

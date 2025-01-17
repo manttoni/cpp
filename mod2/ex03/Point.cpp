@@ -26,4 +26,10 @@ const Fixed& Point::getY() const
 	return y;
 }
 
+std::ostream& operator<<(std::ostream& os, const Point& point)
+{
+	os << "(" << point.getX() << "," << point.getY() << ")";
+	return os;
+}
+
 Point::~Point() {}

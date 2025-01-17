@@ -1,5 +1,5 @@
 #include "Point.hpp"
-#include <iostream>
+//#include <iostream>
 
 static Fixed areaSign(const Point& a, const Point& b, const Point& c)
 {
@@ -7,11 +7,11 @@ static Fixed areaSign(const Point& a, const Point& b, const Point& c)
 						+ b.getX() * (c.getY() - a.getY())
 						+ c.getX() * (a.getY() - b.getY()));
 
-	std::cout << "Points:" << std::endl;
-	std::cout << "a: (" << a.getX() << " , " << a.getY() << ")" << std::endl;
-	std::cout << "b: (" << b.getX() << " , " << b.getY() << ")" << std::endl;
-	std::cout << "c: (" << c.getX() << " , " << c.getY() << ")" << std::endl;
-	std::cout << "areaSign: " << areaSign << std::endl;
+	/*std::cout << "Points:" << std::endl;
+	std::cout << "a: " << a << std::endl;
+	std::cout << "b: " << b << std::endl;
+	std::cout << "c: " << c << std::endl;
+	std::cout << "areaSign: " << areaSign << std::endl;*/
 
 	return areaSign;
 }
