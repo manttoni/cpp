@@ -6,29 +6,23 @@ const int Fixed::fract_bits = 8;
 
 // Constructors
 // Default
-Fixed::Fixed() : value(0) 
-{
-	std::cout << "Default constructor called" << std::endl;
-}
+Fixed::Fixed() : value(0) {}
 
 // Copy
 Fixed::Fixed(const Fixed& other) 
 {
-	std::cout << "Copy constructor called" << std::endl;
 	this->value = other.getRawBits();
 }
 
 // With initial integer value
 Fixed::Fixed(const int value)
 {
-	std::cout << "Integer constructor called with value " << value << std::endl;
 	this->value = value << fract_bits;
 }
 
 // With initial floating point value
 Fixed::Fixed(const float value)
 {
-	std::cout << "Float constructor called with value " << value << std::endl;
 	this->value = value * (1 << fract_bits) + 0.5;
 }
 
@@ -36,7 +30,6 @@ Fixed::Fixed(const float value)
 // Copy assignment operator
 Fixed& Fixed::operator=(const Fixed& other)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &other)
 		this->value = other.getRawBits();
 	return *this;
@@ -107,6 +100,7 @@ Fixed Fixed::operator/(const Fixed& other) const
 	return tmp;
 }
 
+//post-increment/decrement
 Fixed Fixed::operator++(int)
 {
 	Fixed tmp = *this;
@@ -121,6 +115,7 @@ Fixed Fixed::operator--(int)
 	return tmp;
 }
 
+//pre-increment/decrement
 Fixed& Fixed::operator++()
 {
 	value += 1;
@@ -141,22 +136,17 @@ std::ostream& operator<<(std::ostream& os, const Fixed& fixed)
 }
 
 // Destructor
-Fixed::~Fixed() 
-{
-	std::cout << "Destructor called for Fixed with value " << toFloat() << std::endl;
-}
+Fixed::~Fixed() {}
 
 // Getter
 int Fixed::getRawBits() const
 {
-	std::cout << "getRawBits member function called" << std::endl;
 	return value;
 }
 
 // Setter
 void Fixed::setRawBits(int newValue)
 {
-	std::cout << "setRawBits member function called" << std::endl;
 	this->value = newValue;
 }
 
