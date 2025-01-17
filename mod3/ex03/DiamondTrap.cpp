@@ -27,6 +27,10 @@ DiamondTrap::DiamondTrap(const DiamondTrap& other) :    FragTrap(other),
                                                         name(other.name)
 {
     std::cout << "DiamondTrap copy constructor" << std::endl;
+    FragTrap::setHitpoints(other.getHitpoints());
+    ScavTrap::setEnergy(other.getEnergy());
+    FragTrap::setDamage(other.getDamage());
+    ScavTrap::setDamage(other.getDamage());
 }
 
 DiamondTrap::~DiamondTrap()
