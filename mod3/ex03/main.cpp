@@ -6,7 +6,7 @@ void attackTest(DiamondTrap& attacker, DiamondTrap& defender)
     bool hasEnergy = attacker.ScavTrap::getEnergy() > 0;
     attacker.attack("Defender");
     if (hasEnergy)
-        defender.ScavTrap::takeDamage(attacker.FragTrap::getDamage());
+        defender.ClapTrap::takeDamage(attacker.FragTrap::getDamage());
 }
 
 int main(void)
@@ -28,11 +28,11 @@ int main(void)
     std::cout << defender << std::endl;
 
     std::cout << std::endl << "--Testing attack and takeDamage--" << std::endl;
-    for (int i = 0; i < 110; ++i)
+    for (int i = 0; i < 60; ++i)
         attackTest(attacker, defender);
 
     std::cout << std::endl << "--Testing repair--" << std::endl;
-    for (int i = 0; i < 110; ++i)
+    for (int i = 0; i < 60; ++i)
         defender.ScavTrap::beRepaired(1);
 
     std::cout << std::endl << "--Testing whoAmI()--" << std::endl;

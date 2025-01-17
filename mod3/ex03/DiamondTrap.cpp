@@ -1,7 +1,7 @@
 #include <iostream>
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap() : FragTrap(), ScavTrap()
+DiamondTrap::DiamondTrap() : ClapTrap(), FragTrap(), ScavTrap()
 {
     std::cout << "DiamondTrap default constructor" << std::endl;
     name = "";
@@ -11,7 +11,8 @@ DiamondTrap::DiamondTrap() : FragTrap(), ScavTrap()
     ScavTrap::setDamage(30);
 }
 
-DiamondTrap::DiamondTrap(const std::string& name) : FragTrap(name + "_clap_name"), 
+DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"),
+                                                    FragTrap(name), 
                                                     ScavTrap(name), 
                                                     name(name)
 {
@@ -22,7 +23,8 @@ DiamondTrap::DiamondTrap(const std::string& name) : FragTrap(name + "_clap_name"
     ScavTrap::setDamage(30);
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap& other) :    FragTrap(other), 
+DiamondTrap::DiamondTrap(const DiamondTrap& other) :    ClapTrap(other),
+                                                        FragTrap(other), 
                                                         ScavTrap(other), 
                                                         name(other.name)
 {
@@ -45,7 +47,7 @@ void DiamondTrap::attack(const std::string& target)
 
 void DiamondTrap::whoAmI()
 {
-    std::cout << "Name: " << name << " | ClapTrap name: " << FragTrap::getName() << std::endl;
+    std::cout << "Name: " << name << " | ClapTrap name: " << ClapTrap::getName() << std::endl;
 }
 
 std::string DiamondTrap::getName() const { return this->name; }
