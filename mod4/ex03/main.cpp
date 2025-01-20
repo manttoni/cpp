@@ -23,7 +23,6 @@ int main()
     delete me;
     delete src;
 
-
     std::cout << std::endl << "---- More tests ----" << std::endl;
     IMateriaSource* ms1 = new MateriaSource();
     ms1->learnMateria(new Ice());
@@ -33,12 +32,11 @@ int main()
     ICharacter* morokolli = new Character("Morokolli");
     character->use(0, *morokolli);
 
-    
+    *morokolli = *character;
 
     delete character;
     delete morokolli;
     delete ms1;
-
 
     return 0;
 }

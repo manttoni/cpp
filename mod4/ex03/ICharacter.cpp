@@ -1,16 +1,12 @@
 #include "ICharacter.hpp"
+#include <iostream>
 
-ICharacter::ICharacter() : name("")
-{
-    for (int i = 0; i < 4; ++i)
-        slots[i] = nullptr;
-}
+ICharacter::ICharacter() : name("") { for (int i = 0; i < 4; ++i) slots[i] = nullptr; }
 
 ICharacter::ICharacter(const ICharacter& other) : name(other.name)
 {
     for(int i = 0; i < 4; ++i)
     {
-        delete slots[i];
         if (other.slots[i] != nullptr)
             slots[i] = other.slots[i]->clone();
         else

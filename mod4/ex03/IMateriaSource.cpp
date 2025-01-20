@@ -1,16 +1,11 @@
 #include "IMateriaSource.hpp"
 
-IMateriaSource::IMateriaSource()
-{
-    for (int i = 0; i < 4; ++i)
-        slots[i] = nullptr;
-}
+IMateriaSource::IMateriaSource() { for (int i = 0; i < 4; ++i) slots[i] = nullptr; }
 
 IMateriaSource::IMateriaSource(const IMateriaSource& other)
 {
     for (int i = 0; i < 4; ++i)
     {
-        delete slots[i];
         if (other.slots[i] != nullptr)
             slots[i] = other.slots[i]->clone();
         else
