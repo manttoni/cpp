@@ -1,9 +1,16 @@
 #include "Dog.hpp"
 #include <iostream>
 
-Dog::Dog() : Animal("Dog") { std::cout << "Dog default constructor" << std::endl; }
+Dog::Dog() : Animal("Dog") 
+{
+    std::cout << "Dog default constructor" << std::endl;
+}
 
-Dog::Dog(const Dog& other) : type(other.type) { std::cout << "Dog copy constructor" << std::endl; }
+Dog::Dog(const Dog& other) : Dog()
+{
+    std::cout << "Dog copy constructor" << std::endl;
+    (void) other;
+}
 
 Dog& Dog::operator=(const Dog& other)
 {
@@ -12,4 +19,7 @@ Dog& Dog::operator=(const Dog& other)
     return *this;
 }
 
-Dog::~Dog() { std::cout << "Dog destructor" << std::endl; }
+Dog::~Dog()
+{
+    std::cout << "Dog destructor" << std::endl;
+}
