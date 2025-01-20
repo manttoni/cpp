@@ -2,18 +2,11 @@
 
 Character::Character() : ICharacter() {}
 
-Character::Character(const Character& other) : ICharacter(other.name) {}
+Character::Character(const Character& other) : ICharacter(other) {}
 
 Character& Character::operator=(const Character& other)
 {
-    if (this == &other)
-        return *this;
-    this->name = other.name;
-    for (int i = 0; i < 4; ++i)
-    {
-        delete slots[i];
-        slots[i] = other.slots[i];
-    }
+    ICharacter::operator=(other);
     return *this;
 }
 
@@ -26,11 +19,7 @@ Character::~Character()
     }
 }
 
-Character::Character(const std::string& name) : ICharacter(name)
-{
-    for (int i = 0; i < 4; ++i)
-        slots[i] = nullptr;
-}
+Character::Character(const std::string& name) : ICharacter(name) {}
 
 std::string const & Character::getName() const { return name; }
 
@@ -46,12 +35,11 @@ void Character::equip(AMateria* m)
     }
 }
 
-void Character::unequip(int idx)
-{
-    slots[idx] = nullptr;
-}
+void Character::unequip(int idx) { slots[idx] = nullptr; }
 
 void Character::use(int idx, ICharacter& target)
 {
+    if (slots[idx] == nullptr)
+        return;
     slots[idx]->use(target);
 }

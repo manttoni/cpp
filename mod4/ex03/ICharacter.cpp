@@ -11,7 +11,10 @@ ICharacter::ICharacter(const ICharacter& other) : name(other.name)
     for(int i = 0; i < 4; ++i)
     {
         delete slots[i];
-        slots[i] = other.slots[i];
+        if (other.slots[i] != nullptr)
+            slots[i] = other.slots[i]->clone();
+        else
+            slots[i] = nullptr;
     }
 }
 
@@ -23,7 +26,10 @@ ICharacter& ICharacter::operator=(const ICharacter& other)
     for (int i = 0; i < 4; ++i)
     {
         delete slots[i];
-        slots[i] = other.slots[i];
+        if (other.slots[i] != nullptr)
+            slots[i] = other.slots[i]->clone();
+        else
+            slots[i] = nullptr;
     }
     return *this;
 }

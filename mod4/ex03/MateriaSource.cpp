@@ -9,13 +9,7 @@ MateriaSource::MateriaSource(const MateriaSource& other) : IMateriaSource(other)
 
 MateriaSource& MateriaSource::operator=(const MateriaSource& other)
 {
-    if (this == &other)
-        return *this;
-    for (int i = 0; i < 4; ++i)
-    {
-        delete slots[i];
-        slots[i] = other.slots[i];
-    }
+    IMateriaSource::operator=(other);
     return *this;
 }
 
@@ -50,7 +44,7 @@ AMateria* MateriaSource::createMateria(std::string const & type)
         return 0;
     for (int i = 0; i < 4; ++i)
     {
-        if (slots[i]->getType() == type)
+        if (slots[i] != nullptr && slots[i]->getType() == type)
             return slots[i]->clone();
     }
     return nullptr;
