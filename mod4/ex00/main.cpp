@@ -40,7 +40,7 @@ int main()
     std::cout << "Type of dogdog: " << dogdog.getType() << std::endl;
     dogdog.makeSound();
 
-    std::cout << std::endl << "--Testing constructors--" << std::endl;
+    std::cout << std::endl << "--Testing animal constructors and their makeSound--" << std::endl;
     Animal a = Animal();
     Animal b;
     b = a;
@@ -48,7 +48,8 @@ int main()
     a.makeSound();
     b.makeSound();
     c.makeSound();
-    std::cout << std::endl << "--" << std::endl;
+    
+    std::cout << std::endl << "--Testing Cat constructors and their makeSound" << std::endl;
     Cat c1 = Cat();
     Cat c2;
     c2 = c1;
