@@ -1,7 +1,4 @@
-#include <string>
 #include <iostream>
-#include "GradeTooLowException.hpp"
-#include "GradeTooHighException.hpp"
 #include "Bureaucrat.hpp"
 
 // orthodox canonical form
@@ -9,6 +6,7 @@ Bureaucrat::Bureaucrat() : name(""), grade(150) {}
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other) : name(other.name), grade(other.grade) {}
 
+// Can only copy grade
 Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other)
 {
     if (this == &other)

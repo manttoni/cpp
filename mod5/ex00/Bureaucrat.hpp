@@ -2,12 +2,8 @@
 #define BUREAUCRAT_HPP
 
 #include <string>
-#include <exception>
 #include "GradeTooHighException.hpp"
 #include "GradeTooLowException.hpp"
-
-class GradeTooHighException;
-class GradeTooLowException;
 
 class Bureaucrat
 {
