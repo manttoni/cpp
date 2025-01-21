@@ -1,5 +1,7 @@
 #include <string>
 #include <iostream>
+#include "GradeTooLowException.hpp"
+#include "GradeTooHighException.hpp"
 #include "Bureaucrat.hpp"
 
 // orthodox canonical form
@@ -21,7 +23,7 @@ Bureaucrat::~Bureaucrat() {}
 Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name), grade(grade)
 {
     if (grade > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     if (grade < 1)
         throw GradeTooHighException();
 }
@@ -52,12 +54,12 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
     return os;
 }
 
-const char* Bureaucrat::GradeTooHighException::what() const noexcept
+/*const char* Bureaucrat::GradeTooHighException::what() const noexcept
 {
-    return "Grade too high!";
+    return "Grade too high!\n";
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const noexcept
 {
-    return "Grade too low!";
-}
+    return "Grade too low!\n";
+}*/
