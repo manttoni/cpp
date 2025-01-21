@@ -2,8 +2,6 @@
 #define BUREAUCRAT_HPP
 
 #include <string>
-#include "GradeTooHighException.hpp"
-#include "GradeTooLowException.hpp"
 
 class Bureaucrat
 {
@@ -29,9 +27,7 @@ class Bureaucrat
         void demote();
 
         // exception classes
-        class GradeTooHighException;
-        class GradeTooLowException;
-        /*class GradeTooHighException : public std::exception
+        class GradeTooHighException : public std::exception
         {
             public:
                 const char* what() const noexcept override;
@@ -40,7 +36,7 @@ class Bureaucrat
         {
             public:
                 const char* what() const noexcept override;
-        };*/
+        };
 };
 
 // << overload

@@ -23,7 +23,7 @@ Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name), grade(gr
     if (grade > 150)
         throw Bureaucrat::GradeTooLowException();
     if (grade < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
 }
 
 // getters
@@ -34,14 +34,14 @@ int Bureaucrat::getGrade() const { return grade; }
 void Bureaucrat::promote()
 {
     if (grade == 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     grade--;
 }
 
 void Bureaucrat::demote()
 {
     if (grade == 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     grade++;
 }
 
@@ -52,7 +52,7 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
     return os;
 }
 
-/*const char* Bureaucrat::GradeTooHighException::what() const noexcept
+const char* Bureaucrat::GradeTooHighException::what() const noexcept
 {
     return "Grade too high!\n";
 }
@@ -60,4 +60,4 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
 const char* Bureaucrat::GradeTooLowException::what() const noexcept
 {
     return "Grade too low!\n";
-}*/
+}
