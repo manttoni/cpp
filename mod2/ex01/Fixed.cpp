@@ -12,14 +12,12 @@ Fixed::Fixed() : value(0)
 }
 
 // Copy
-Fixed::Fixed(const Fixed& other) 
+Fixed::Fixed(const Fixed& other) : value(other.value)
 {
 	std::cout << "Copy constructor called" << std::endl;
-	*this = other;;
 }
 
 // With initial integer value
-// value has to be maximum 24 bits long, otherwise it will be truncated
 Fixed::Fixed(const int value)
 {
 	std::cout << "Integer constructor called" << std::endl;
@@ -27,11 +25,10 @@ Fixed::Fixed(const int value)
 }
 
 // With initial floating point value
-// int value has to be maximum 24 bits long, otherwise it will be truncated
 Fixed::Fixed(const float value)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->value = value * (1 << fract_bits) + 0.5;
+	this->value = round(value * (1 << fract_bits));
 }
 
 // Operators

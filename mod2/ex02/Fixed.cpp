@@ -23,7 +23,7 @@ Fixed::Fixed(const int value)
 // With initial floating point value
 Fixed::Fixed(const float value)
 {
-	this->value = value * (1 << fract_bits) + 0.5;
+	this->value = round(value * (1 << fract_bits));
 }
 
 // Operators
