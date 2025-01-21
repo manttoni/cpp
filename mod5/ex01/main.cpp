@@ -40,11 +40,11 @@ int main(void)
 
     std::cout << std::endl << "---- Trying to create 3 invalid forms ----" << std::endl;
     try { Form inv1 = Form("", 0, 151); }
-    catch(std::exception& e) { std::cout << e.what(); }
+    catch(std::exception& e) { std::cout << e.what() << std::endl; }
     try { Form inv1 = Form("", 1, 151); }
-    catch(std::exception& e) { std::cout << e.what(); }
+    catch(std::exception& e) { std::cout << e.what() << std::endl; }
     try { Form inv1 = Form("", 0, 150); }
-    catch(std::exception& e) { std::cout << e.what(); }
+    catch(std::exception& e) { std::cout << e.what() << std::endl; }
 
     return 0;
 }

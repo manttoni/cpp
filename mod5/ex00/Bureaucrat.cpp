@@ -1,5 +1,5 @@
-#include <iostream>
 #include "Bureaucrat.hpp"
+#include <iostream>
 
 // orthodox canonical form
 Bureaucrat::Bureaucrat() : name(""), grade(150) {}

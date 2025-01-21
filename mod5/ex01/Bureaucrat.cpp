@@ -1,6 +1,6 @@
+#include "Bureaucrat.hpp"
 #include <string>
 #include <iostream>
-#include "Bureaucrat.hpp"
 
 // orthodox canonical form
 Bureaucrat::Bureaucrat() : name(""), grade(150) {}
@@ -21,9 +21,9 @@ Bureaucrat::~Bureaucrat() {}
 Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name), grade(grade)
 {
     if (grade > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     if (grade < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
 }
 
 // getters
@@ -34,14 +34,14 @@ int Bureaucrat::getGrade() const { return grade; }
 void Bureaucrat::promote()
 {
     if (grade == 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     grade--;
 }
 
 void Bureaucrat::demote()
 {
     if (grade == 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     grade++;
 }
 
@@ -54,12 +54,12 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& b)
 
 const char* Bureaucrat::GradeTooHighException::what() const noexcept
 {
-    return "Grade too high!\n";
+    return "Grade too high!";
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const noexcept
 {
-    return "Grade too low!\n";
+    return "Grade too low!";
 }
 
 void Bureaucrat::signForm(Form& form)
