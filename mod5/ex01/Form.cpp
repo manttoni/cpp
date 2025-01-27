@@ -9,15 +9,6 @@ Form::Form(const Form& other) :   name(other.name),
                             grade_sign(other.grade_sign), 
                             grade_exec(other.grade_exec) {}
 
-// can only assign isSigned value
-Form& Form::operator=(const Form& other)
-{
-    if (this == &other)
-        return *this;
-    isSigned = other.isSigned;
-    return *this;
-}
-
 Form::~Form() {}
 
 Form::Form(std::string name, int grade_sign, int grade_exec) :    name(name),
