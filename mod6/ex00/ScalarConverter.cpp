@@ -18,7 +18,7 @@ static bool isType(const std::string& s)
     if (s.find_first_of("f") < s.size() - 1)
         throw std::runtime_error("\'f\' is not last");
 
-    if (s.find_first_of("-") != std::string::npos && s.find_last_of("-") > 0)
+    if (s.find_last_of("-") != std::string::npos && s.find_last_of("-") > 0)
         throw std::runtime_error("\'-\' is not first");
 
     if (s.find_first_of(".") != s.find_last_of("."))
