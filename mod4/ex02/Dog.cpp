@@ -8,10 +8,9 @@ Dog::Dog() : Animal("Dog")
     brain = new Brain();
 }
 
-Dog::Dog(const Dog& other)
+Dog::Dog(const Dog& other) : Animal("Dog")
 {
     std::cout << "Dog copy constructor" << std::endl;
-    setType("Dog");
     brain = new Brain(*other.brain);
 }
 
@@ -29,6 +28,11 @@ Dog::~Dog()
 {
     std::cout << "Dog destructor" << std::endl;
     delete brain;
+}
+
+void Dog::makeSound() const
+{
+    std::cout << "Bark" << std::endl;
 }
 
 Brain& Dog::getBrain() const

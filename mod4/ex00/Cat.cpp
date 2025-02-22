@@ -23,3 +23,8 @@ Cat::~Cat()
 {
     std::cout << "Cat destructor" << std::endl;
 }
+
+void Cat::makeSound() const
+{
+    std::cout << "meow" << std::endl;
+}

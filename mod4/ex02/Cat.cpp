@@ -8,10 +8,9 @@ Cat::Cat() : Animal("Cat")
     brain = new Brain();
 }
 
-Cat::Cat(const Cat& other)
+Cat::Cat(const Cat& other) : Animal("Cat")
 {
     std::cout << "Cat copy constructor" << std::endl;
-    setType("Cat");
     brain = new Brain(*other.brain);
 }
 
@@ -29,6 +28,11 @@ Cat::~Cat()
 {
     std::cout << "Cat destructor" << std::endl;
     delete brain;
+}
+
+void Cat::makeSound() const
+{
+    std::cout << "Meow" << std::endl;
 }
 
 Brain& Cat::getBrain() const

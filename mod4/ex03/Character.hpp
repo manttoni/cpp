@@ -6,6 +6,9 @@
 
 class Character : public ICharacter
 {
+    private:
+        std::string name;
+        AMateria *slots[4];
     public:
         Character();
         Character(const Character& other);

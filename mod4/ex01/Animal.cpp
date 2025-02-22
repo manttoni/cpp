@@ -18,14 +18,6 @@ Animal& Animal::operator=(const Animal& other)
 
 Animal::~Animal() { std::cout << "Animal destructor" << std::endl; }
 
-void Animal::makeSound() const
-{
-    if (type == "Cat")
-        std::cout << "Meow" << std::endl;
-    else if (type == "Dog")
-        std::cout << "Bark" << std::endl;
-}
-
 std::string Animal::getType() const { return type; }
 
 void Animal::setType(const std::string& type)
