@@ -1,20 +1,24 @@
+### BINARIES ###
 NAME = maggots
 
+### SOURCES AND OBJECTS ###
 SRC =	Bureaucrat.cpp \
 		Form.cpp \
 		main.cpp
-
 OBJ = $(SRC:.cpp=.o)
 
+### COMPILER AND FLAGS ###
 CC = c++
 FLAGS = -Wall -Wextra -Werror
 
+### EXECUTABLE AND OBJECTS CREATION ###
 $(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
 
 %.o: %.cpp
 	$(CC) $(FLAGS) -c $< -o $@
 
+### PHONY TARGETS ###
 all: $(NAME)
 
 clean:
