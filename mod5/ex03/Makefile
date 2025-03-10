@@ -1,8 +1,32 @@
-NAME=intern
+NAME = forms
 
-all:
-	c++ -g -Wall -Wextra -Werror *.cpp -o $(NAME)
+SRC =	Bureaucrat.cpp \
+		AForm.cpp \
+		PresidentialPardonForm.cpp \
+		RobotomyRequestForm.cpp \
+		ShrubberyCreationForm.cpp \
+		Intern.cpp \
+		main.cpp
+
+OBJ = $(SRC:.cpp=.o)
+
+CC = c++
+FLAGS = -Wall -Wextra -Werror
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
+
+%.o: %.cpp
+	$(CC) $(FLAGS) -c $< -o $@
+
+all: $(NAME)
 
 clean:
+	rm -f $(OBJ)
+
+fclean: clean
 	rm -f $(NAME)
-	rm -f *_shrubbery
+
+re: fclean all
+
+.PHONY: all clean fclean re
