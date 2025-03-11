@@ -64,5 +64,6 @@ int main(void)
 	std::cout << "Identifying: " << std::endl;
 	identify(r);
 	identify(*r);
+	delete r;
 	return (0);
 }

@@ -4,7 +4,8 @@
 
 PresidentialPardonForm::PresidentialPardonForm() : AForm("pardon_form", 25, 5, "") {}
 
-PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other) : AForm(other) {}
+PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other) 
+	: AForm(other) {}
 
 PresidentialPardonForm::~PresidentialPardonForm() {}
 

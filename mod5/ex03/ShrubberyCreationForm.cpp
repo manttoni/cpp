@@ -6,7 +6,8 @@
 
 ShrubberyCreationForm::ShrubberyCreationForm() : AForm("shrubbery_creation", 145, 137, "nobody") {}
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other) : AForm(other) {}
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other) 
+	: AForm(other) {}
 
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
 

@@ -12,7 +12,7 @@ class Bureaucrat
         // orthodox canonical form
         Bureaucrat();
         Bureaucrat(const Bureaucrat& other);
-        Bureaucrat& operator=(const Bureaucrat& other);
+        Bureaucrat& operator=(const Bureaucrat& other) = delete;
         ~Bureaucrat();
 
         // other constructors

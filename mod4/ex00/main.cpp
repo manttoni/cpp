@@ -56,9 +56,11 @@ int main()
 	Cat c2;
 	c2 = c1;
 	Cat c3 = Cat(c2);
+	std::cout << "-- Making sounds --" << std::endl;
 	c1.makeSound();
 	c2.makeSound();
 	c3.makeSound();
+	std::cout << "-- Stopped making sounds --" << std::endl;
 
 	
 

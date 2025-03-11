@@ -6,15 +6,6 @@ Bureaucrat::Bureaucrat() : name(""), grade(150) {}
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other) : name(other.name), grade(other.grade) {}
 
-// Can only copy grade
-Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other)
-{
-    if (this == &other)
-        return *this;
-    grade = other.grade;
-    return *this;
-}
-
 Bureaucrat::~Bureaucrat() {}
 
 // other constructors
