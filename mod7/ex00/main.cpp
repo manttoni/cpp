@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "templates.hpp"
 
 int main( void ) {
