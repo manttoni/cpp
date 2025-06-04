@@ -1,8 +1,8 @@
 ### BINARIES ###
-NAME = array
+NAME = mutant
 
 ### SOURCES AND OBJECTS ###
-SRC =	main.cpp
+SRC = main.cpp
 OBJ = $(SRC:.cpp=.o)
 
 ### COMPILER AND FLAGS ###
