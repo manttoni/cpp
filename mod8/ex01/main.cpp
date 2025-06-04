@@ -2,11 +2,6 @@
 #include <iostream>
 #include <random>
 
-static void clearLine(const int n)
-{
-	std::cout << std::string(n, ' ') << "\r" << std::flush;
-}
-
 int main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -14,11 +9,18 @@ int main(int argc, char **argv)
 		std::cout << argv[0] << " <N>" << std::endl;
 		return 1;
 	}
+	const std::string input = argv[1];
 
-	unsigned int N;
+	if (input.find_first_not_of("1234567890") != std::string::npos)
+	{
+		std::cout << "Invalid input" << std::endl;
+		return 4;
+	}
+
+	unsigned long long N_long;
 	try
 	{
-		N = std::stoul(argv[1]);
+		N_long = std::stoull(input);
 	}
 	catch(std::exception &e)
 	{
@@ -26,11 +28,18 @@ int main(int argc, char **argv)
 		return 2;
 	}
 
+	if (N_long > std::numeric_limits<unsigned int>::max())
+	{
+		std::cout << "Input too large" << std::endl;
+		return 3;
+	}
+	unsigned int N = static_cast<unsigned int>(N_long);
+
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<int> dist(std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
 
-	Span s = Span(N);
+	Span s(N);
 
 	std::cout << "Populating span\r" << std::flush;
 	for (unsigned int i = 0; i < N; ++i)
@@ -39,13 +48,8 @@ int main(int argc, char **argv)
 
 	try
 	{
-		std::cout << "Calculating longest span\r" << std::flush;
-		clearLine(30);
-		std::cout << "Longest span: " << s.longestSpan() << std::endl;
-
-		std::cout << "Calculating shortest span\r" << std::flush;
-		clearLine(30);
 		std::cout << "Shortest span: " << s.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << s.longestSpan() << std::endl;
 	}
 	catch (std::exception &e)
 	{
