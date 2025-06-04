@@ -1,8 +1,8 @@
 ### BINARIES ###
-NAME = array
+NAME = span
 
 ### SOURCES AND OBJECTS ###
-SRC =	main.cpp
+SRC =	main.cpp Span.cpp
 OBJ = $(SRC:.cpp=.o)
 
 ### COMPILER AND FLAGS ###
