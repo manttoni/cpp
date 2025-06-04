@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <limits>
+#include <stdexcept>
 
 Span::Span() : N(0) {}
 Span::~Span() {}

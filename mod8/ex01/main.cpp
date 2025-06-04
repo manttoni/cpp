@@ -1,5 +1,6 @@
 #include "Span.hpp"
 #include <iostream>
+#include <random>
 
 int main(int argc, char **argv)
 {
@@ -9,8 +10,11 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+	unsigned int N;
 	try
-		unsigned int N = std::stoul(argv[1]);
+	{
+		N = std::stoul(argv[1]);
+	}
 	catch(std::exception &e)
 	{
 		std::cout << "Invalid input" << std::endl;
@@ -25,7 +29,14 @@ int main(int argc, char **argv)
 	for (unsigned int i = 0; i < N; ++i)
 		s.addNumber(dist(gen));
 
-	std::cout << "Shortest span: " << s.shortestSpan() << std::endl;
-	std::cout << "Longest span: " << s.longestSpan() << std::endl;
+	try
+	{
+		std::cout << "Shortest span: " << s.shortestSpan() << std::endl;
+		std::cout << "Longest span: " << s.longestSpan() << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	return 0;
 }
