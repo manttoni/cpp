@@ -2,6 +2,11 @@
 #include <iostream>
 #include <random>
 
+static void clearLine(const int n)
+{
+	std::cout << std::string(n, ' ') << "\r" << std::flush;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -26,13 +31,21 @@ int main(int argc, char **argv)
 	std::uniform_int_distribution<int> dist(std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
 
 	Span s = Span(N);
+
+	std::cout << "Populating span\r" << std::flush;
 	for (unsigned int i = 0; i < N; ++i)
 		s.addNumber(dist(gen));
+	std::cout << "Span populated \r" << std::flush;
 
 	try
 	{
-		std::cout << "Shortest span: " << s.shortestSpan() << std::endl;
+		std::cout << "Calculating longest span\r" << std::flush;
+		clearLine(30);
 		std::cout << "Longest span: " << s.longestSpan() << std::endl;
+
+		std::cout << "Calculating shortest span\r" << std::flush;
+		clearLine(30);
+		std::cout << "Shortest span: " << s.shortestSpan() << std::endl;
 	}
 	catch (std::exception &e)
 	{

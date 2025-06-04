@@ -3,6 +3,7 @@
 #include <vector>
 #include <limits>
 #include <stdexcept>
+#include <unordered_set>
 
 Span::Span() : N(0) {}
 Span::~Span() {}
@@ -16,7 +17,10 @@ Span& Span::operator=(const Span &other)
 	}
 	return *this;
 }
-Span::Span(const unsigned int N) : N(N) {}
+Span::Span(const unsigned int N) : N(N)
+{
+	numbers.reserve(N);
+}
 
 void Span::addNumber(const int number)
 {
@@ -25,10 +29,24 @@ void Span::addNumber(const int number)
 	numbers.push_back(number);
 }
 
+static bool hasDuplicates(const std::vector<int> &vec)
+{
+	std::unordered_set<int> seen;
+	for (int num : vec)
+	{
+		if (!seen.insert(num).second)
+			return true;
+	}
+	return false;
+}
+
 unsigned int Span::shortestSpan() const
 {
 	if (numbers.size() < 2)
 		throw std::runtime_error("No span can be found");
+
+	if (hasDuplicates(numbers))
+		return 0;
 
 	std::vector<int> sorted = numbers;
 	std::sort(sorted.begin(), sorted.end());
