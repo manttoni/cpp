@@ -3,6 +3,14 @@
 #include <fstream>
 #include <cmath>
 
+std::ifstream openFile(const std::string &fileName)
+{
+	std::ifstream file(fileName);
+	if (!file.is_open())
+		throw std::runtime_error("Failed to open file: " + fileName);
+	return file;
+}
+
 int main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -11,10 +19,15 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	std::ifstream dataFile("data.csv");
-	if (!dataFile.is_open())
+	std::ifstream dataFile, inputFile;
+	try
 	{
-		std::cerr << "Failed to open file 'data.csv'" << std::endl;
+		dataFile = openFile("data.csv");
+		inputFile = openFile(argv[1]);
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
 		return 2;
 	}
 
@@ -27,15 +40,6 @@ int main(int argc, char **argv)
 	{
 		std::cerr << "Failed to instantiate BitcoinExchange: " << e.what() << std::endl;
 		return 3;
-	}
-	dataFile.close();
-	std::cout << "BitcoinExchange has succesfully loaded the database" << std::endl;
-
-	std::ifstream inputFile(argv[1]);
-	if (!inputFile.is_open())
-	{
-		std::cerr << "Failed to open file '" << argv[1] << "'" << std::endl;
-		return 4;
 	}
 
 	// start checking rates
@@ -51,7 +55,7 @@ int main(int argc, char **argv)
 			Date date = std::get<0>(values);
 			float rate = be.getRate(date);
 			if (multiplier > 1000 || multiplier < 0 || std::isinf(multiplier * rate))
-				throw std::runtime_error("Too big a number");
+				throw std::runtime_error("Too large a number");
 			std::cout << date << " => " << multiplier << " = " << multiplier * rate << std::endl;
 		}
 		catch(std::exception &e)

@@ -10,7 +10,7 @@ typedef std::chrono::year_month_day Date;
 class BitcoinExchange
 {
 	private:
-		std::map<std::chrono::year_month_day, float> exrates;
+		std::map<Date, float> exrates;
 	public:
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange &other);
@@ -23,7 +23,7 @@ class BitcoinExchange
 
 std::map<Date, float> readCSV(std::ifstream &file);
 std::tuple<Date, float> parseTuple(const std::string &line, const char sep);
-std::string trim(const std::string& str);
-std::ostream& operator<<(std::ostream& os, const Date &ymd);
+std::string trim(const std::string &str);
+std::ostream& operator<<(std::ostream &os, const Date &ymd);
 
 #endif
