@@ -17,7 +17,7 @@ std::string trim(const std::string& str)
 	return std::string(begin, end);
 }
 
-std::chrono::year_month_day parseDate(const std::string& dateStr)
+Date parseDate(const std::string& dateStr)
 {
     std::tm tm = {};
     std::istringstream ss(dateStr);
@@ -32,7 +32,7 @@ std::chrono::year_month_day parseDate(const std::string& dateStr)
     };
 }
 
-std::tuple<std::chrono::year_month_day, float> parseTuple(const std::string &line, const char sep)
+std::tuple<Date, float> parseTuple(const std::string &line, const char sep)
 {
 	std::istringstream ss(line);
 
@@ -47,7 +47,7 @@ std::tuple<std::chrono::year_month_day, float> parseTuple(const std::string &lin
 		throw std::runtime_error("Can't have empty values");
 
 	// get date
-	std::chrono::year_month_day ymd = parseDate(left);
+	Date ymd = parseDate(left);
 
 	// get rate
 	float rate;
@@ -65,16 +65,16 @@ std::tuple<std::chrono::year_month_day, float> parseTuple(const std::string &lin
 	return std::make_tuple(ymd, rate);
 }
 
-std::map<std::chrono::year_month_day, float> readCSV(std::ifstream &file)
+std::map<Date, float> readCSV(std::ifstream &file)
 {
-	std::map<std::chrono::year_month_day, float> csvMap;
+	std::map<Date, float> csvMap;
 	std::string line;
 	while (std::getline(file, line))
 	{
 		if (line == "date,exchange_rate")
 			continue;
-		std::tuple<std::chrono::year_month_day, float> values = parseTuple(line, ',');
-		std::chrono::year_month_day ymd = std::get<0>(values);
+		std::tuple<Date, float> values = parseTuple(line, ',');
+		Date ymd = std::get<0>(values);
 		float rate = std::get<1>(values);
 		csvMap[ymd] = rate;
 	}
@@ -89,33 +89,32 @@ BitcoinExchange::BitcoinExchange(std::ifstream &file)
 BitcoinExchange::BitcoinExchange() {}
 BitcoinExchange::~BitcoinExchange() {}
 
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : exrates(other.exrates) {}
+
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange &other)
 {
 	if (this != &other)
-	{
 		exrates = other.exrates;
-	}
 	return *this;
 }
 
-std::map<std::chrono::year_month_day, float>::const_iterator
-BitcoinExchange::getRate(const std::chrono::year_month_day &ymd) const
+float BitcoinExchange::getRate(const std::chrono::year_month_day &ymd) const
 {
 	auto it = exrates.lower_bound(ymd);
 	if (it != exrates.end() && it->first == ymd)
 		// exact date found
-		return it;
+		return it->second;
 	else if (it == exrates.begin())
 		throw std::runtime_error("No rate exists for this or earlier date");
 	else
 	{
 		// exact date not found, but there is a previous one
 		it--; // iterator is pointing at the previous element of exrates
-		return it;
+		return it->second;
 	}
 }
 
-std::ostream& operator<<(std::ostream& os, const std::chrono::year_month_day& ymd)
+std::ostream& operator<<(std::ostream& os, const Date &ymd)
 {
 	int y = int(ymd.year());
 	unsigned m = unsigned(ymd.month());

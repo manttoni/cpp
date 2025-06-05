@@ -1,6 +1,7 @@
 #include "BitcoinExchange.hpp"
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 int main(int argc, char **argv)
 {
@@ -45,12 +46,13 @@ int main(int argc, char **argv)
 			continue;
 		try
 		{
-			std::tuple<std::chrono::year_month_day, float> values = parseTuple(line, '|');
+			std::tuple<Date, float> values = parseTuple(line, '|');
 			float multiplier = std::get<1>(values);
-			if (multiplier > 1000 || multiplier < 0)
+			Date date = std::get<0>(values);
+			float rate = be.getRate(date);
+			if (multiplier > 1000 || multiplier < 0 || std::isinf(multiplier * rate))
 				throw std::runtime_error("Too big a number");
-			auto rate = be.getRate(std::get<0>(values));
-			std::cout << rate->first << " => " << multiplier << " = " << multiplier * rate->second << std::endl;
+			std::cout << date << " => " << multiplier << " = " << multiplier * rate << std::endl;
 		}
 		catch(std::exception &e)
 		{
