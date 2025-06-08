@@ -120,27 +120,43 @@ void insert_pending(T &main_elements, T &pend_elements, size_t element_size)
 	std::cout << "Pend elements: ";
 	print_elements(pend_elements, element_size);
 
-	std::vector<size_t> jacob = jacobstahl(pend_elements.size());
-
 	size_t pend_elements_count = pend_elements.size() / element_size;
-	size_t jacob_index = 0;
-	for (; jacob_index < pend_elements_count - 1; ++jacob_index)
+	std::vector<size_t> jacob = jacobstahl(pend_elements.size());
+	std::vector<bool> inserted(pend_elements_count, false);
+
+	// insert backwards from magic jacob index
+	for (size_t i = jacob.size() - 1; i > 2; --i)
 	{
-		size_t jacob_value = jacob[jacob_index];
-		if (jacob_value > pend_elements_count - 1)
+		size_t curr = jacob[i];
+		size_t prev = jacob[i - 1];
+		if (curr > pend_elements_count)
+			continue;
+		std::cout << "Jacob number: " << jacob[i] << std::endl;
+		for (size_t j = curr; j > prev; --j)
 		{
-			jacob_index--;
-			break;
+			size_t index = j - 1;
+			if (inserted[index] == true)
+				continue;
+			std::cout << "Inserting from jacob index " << index << std::endl;
+			auto element = pend_elements.begin() + index * element_size;
+			size_t insert_i = search_lower(main_elements, element, element_size);
+			auto insert_it = main_elements.begin() + insert_i * element_size;
+			main_elements.insert(insert_it, element, element + element_size);
+			inserted[index] = true;
 		}
 	}
 
-	std::cout << "Jacob index: " << jacob_index << std::endl;
-	auto pend_begin = pend_elements.begin() + jacob_index * element_size;
-	size_t insert_id = search_lower(main_elements, pend_begin, element_size);
-	auto insert_it = main_elements.begin() + insert_id * element_size;
-	main_elements.insert(insert_it, pend_begin, pend_begin + element_size);
-	pend_elements.erase(pend_begin, pend_begin + element_size);
-	insert_pending(main_elements, pend_elements, element_size);
+	// insert the rest normally
+	std::cout << "Inserting normally" << std::endl;
+	for (size_t i = 0; i < pend_elements_count; ++i)
+	{
+		if (inserted[i] == true)
+			continue;
+		auto element = pend_elements.begin() + i * element_size;
+		size_t insert_i = search_lower(main_elements, element, element_size);
+		auto insert_it = main_elements.begin() + insert_i * element_size;
+		main_elements.insert(insert_it, element, element + element_size);
+	}
 }
 
 template <typename T>
