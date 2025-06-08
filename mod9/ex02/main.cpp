@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	print_numbers(vec);
 	std::cout << std::endl;
 
-	assert(is_sorted(vec));
+	assert(is_sorted(vec, 1));
 
 	std::cout << "Comparisons: " << comparisons << std::endl;
 	/*

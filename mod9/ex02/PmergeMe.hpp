@@ -56,19 +56,15 @@ int get_highest(typename T::iterator it, size_t element_size)
 
 // find the lower_bound index for element in main_elements
 template <typename T>
-size_t search_lower(T &main_elements, auto element, size_t element_size)
+size_t search_lower(typename T::iterator main_begin, size_t search_max, int ele_value, size_t element_size)
 {
-	int ele_value = get_highest<T>(element, element_size);
-	size_t elements_count = main_elements.size() / element_size;
-	if (ele_value >= main_elements.back())
-		return elements_count;
 	size_t begin = 0;
-	size_t end = elements_count - 1;
+	size_t end = search_max;
 	while (begin < end)
 	{
 		comparisons++;
 		size_t middle = begin + (end - begin) / 2;
-		int mid_value = get_highest<T>(main_elements.begin() + middle * element_size, element_size);
+		int mid_value = get_highest<T>(main_begin + middle * element_size, element_size);
 		if (ele_value <= mid_value)
 		{
 			std::cout << ele_value << " <= " << mid_value << std::endl;
@@ -84,13 +80,21 @@ size_t search_lower(T &main_elements, auto element, size_t element_size)
 }
 
 template <typename T>
-bool is_sorted(T elements)
+bool is_sorted(T elements, size_t element_size)
 {
-	for (size_t i = 0; i < elements.size() - 1; ++i)
+	size_t element_count = elements.size() / element_size;
+	print_elements(elements, element_size);
+	for (size_t i = 0; i < element_count - 1; i += element_size)
 	{
-		if (elements[i] > elements[i + 1])
+		auto curr = elements.begin() + i * element_size;
+		auto next = elements.begin() + (i + 1) * element_size;
+		if (get_highest<T>(curr, element_size) > get_highest<T>(next, element_size))
+		{
+			std::cout << " is not sorted at " << i << std::endl;
 			return false;
+		}
 	}
+	std::cout << " is sorted" << std::endl;
 	return true;
 }
 
@@ -108,68 +112,11 @@ std::vector<size_t> jacobstahl(const int n)
 }
 
 template <typename T>
-void insert_pending(T &main_elements, T &pend_elements, size_t element_size)
-{
-	if (pend_elements.empty())
-		return;
-
-	std::cout << "------------" << std::endl;
-	std::cout << "Comparisons: " << comparisons << std::endl;
-	std::cout << "Main elements: ";
-	print_elements(main_elements, element_size);
-	std::cout << "Pend elements: ";
-	print_elements(pend_elements, element_size);
-
-	size_t pend_elements_count = pend_elements.size() / element_size;
-	std::vector<size_t> jacob = jacobstahl(pend_elements.size());
-	std::vector<bool> inserted(pend_elements_count, false);
-
-	// insert backwards from magic jacob index
-	for (size_t i = jacob.size() - 1; i > 2; --i)
-	{
-		size_t curr = jacob[i];
-		size_t prev = jacob[i - 1];
-		if (curr > pend_elements_count)
-			continue;
-		std::cout << "Jacob number: " << jacob[i] << std::endl;
-		for (size_t j = curr; j > prev; --j)
-		{
-			size_t index = j - 1;
-			if (inserted[index] == true)
-				continue;
-			std::cout << "Inserting from jacob index " << index << std::endl;
-			auto element = pend_elements.begin() + index * element_size;
-			size_t insert_i = search_lower(main_elements, element, element_size);
-			auto insert_it = main_elements.begin() + insert_i * element_size;
-			main_elements.insert(insert_it, element, element + element_size);
-			inserted[index] = true;
-		}
-	}
-
-	// insert the rest normally
-	std::cout << "Inserting normally" << std::endl;
-	for (size_t i = 0; i < pend_elements_count; ++i)
-	{
-		if (inserted[i] == true)
-			continue;
-		auto element = pend_elements.begin() + i * element_size;
-		size_t insert_i = search_lower(main_elements, element, element_size);
-		auto insert_it = main_elements.begin() + insert_i * element_size;
-		main_elements.insert(insert_it, element, element + element_size);
-	}
-}
-
-template <typename T>
 void merge_insert(T &elements, size_t element_size)
 {
-	if (is_sorted(elements))
+	if (is_sorted(elements, element_size))
 		return;
 	size_t element_count = elements.size() / element_size;
-	std::cout << "------------" << std::endl;
-	std::cout << "Comparisons: " << comparisons;
-	std::cout << ", Size: " << element_size;
-	std::cout << ", Count: " << element_count << std::endl;
-	print_elements(elements, element_size);
 
 	// check if can form 2 elements
 	if (element_size * 2 > elements.size())
@@ -204,41 +151,86 @@ void merge_insert(T &elements, size_t element_size)
 	// go deeper
 	merge_insert(elements, element_size * 2);
 
-	if (is_sorted(elements))
+	// if elements are sorted, no need to do insert
+	if (is_sorted(elements, element_size))
 		return;
 
-	std::cout << "------------" << std::endl;;
-	std::cout << "Comparisons: " << comparisons;
-	std::cout << ", Size: " << element_size;
-	std::cout << ", Count: " << element_count << std::endl;
-	print_elements(elements, element_size);
-
-	// split elements to main and pend
+	// start insert phase
+	// main is going to be already sorted
+	// pend is not sorted
+	// leftovers are ignored but saved for later
 	T main_elements, pend_elements, leftovers;
 	for (size_t i = 0; i < element_count; ++i)
 	{
 		// get element iterator
 		auto element_it = elements.begin() + i * element_size;
-		print_element(element_it, element_size);
 
 		// first element and all odds are main
 		if (i == 0 || i % 2 == 1)
 		{
 			main_elements.insert(main_elements.end(), element_it, element_it + element_size);
-			std::cout << "Moved to main" << std::endl;
 			continue;
 		}
 
 		// rest are pend
 		pend_elements.insert(pend_elements.begin(), element_it, element_it + element_size);
-		std::cout << "Moved to pend" << std::endl;
 	}
 
 	// save leftovers
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
 		leftovers.push_back(elements[i]);
 
-	insert_pending(main_elements, pend_elements, element_size);
+	// label main to keep track of original main chain
+	// when inserting from pend to main, add a -1 in that spot
+	T labels;
+	labels.push_back(-1);
+	for (size_t i = 0; i < main_elements.size() / element_size; ++i)
+		labels.push_back(i);
+
+	// temporary for testing
+	const std::vector<size_t> jacobstahl_order = {3,2,5,4,11,10,9,8,7,6};
+
+	// use Jacobstahl magic numbers to insert pend elements in that order
+	for (size_t i = 0; i < pend_elements.size() / element_size; ++i)
+	{
+		// current magic number
+		int jacob = jacobstahl_order[i];
+
+		// index of pend element to be inserted
+		size_t pend_i = jacob - 2;
+
+		// index of main element bound to pend element. pend_element <= main element
+		// a0 -> a1 -> a2 -> a3 ...
+		// b0    b1    b2    b3 ...
+		// b0 is -1 in labels
+		// first magic number is 3 so a3 and b3(pend_i) are bound
+
+		// find all inserted pend elements up to jacob to find bound element of pend_i
+		size_t search_max = 0;
+		while (labels[search_max] < jacob - 1)
+			search_max++;
+
+		std::cout << "Magic number: " << jacob << std::endl;
+		std::cout << "pend_i: " << pend_i << std::endl;
+		std::cout << "search_max: " << search_max << std::endl;
+		std::cout << "Main elements: ";
+		print_elements(main_elements, element_size);
+		std::cout << "Pend elements: ";
+		print_elements(pend_elements, element_size);
+		std::cout << "Leftovers: ";
+		print_elements(leftovers, leftovers.size());
+		std::cout << "Labels: ";
+		print_elements(labels, labels.size());
+
+		// binary search in area 0, search_max
+		// insert pend_elements[pend_i] there and insert -1 label to corresponding place
+		auto src_begin = pend_elements.begin() + pend_i * element_size;
+		auto src_end = src_begin + element_size;
+		int pend_val = get_highest<T>(src_begin, element_size);
+		size_t dst_i = search_lower<T>(main_elements.begin(), search_max, pend_val, element_size);
+		main_elements.insert(main_elements.begin() + dst_i * element_size, src_begin, src_end);
+		labels.insert(labels.begin() + dst_i, -1);
+	}
 
 	// replace elements with the sorted main_elements
 	elements = main_elements;
