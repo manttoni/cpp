@@ -81,6 +81,8 @@ size_t search_lower(auto main_begin, size_t search_max, auto element, size_t ele
 // return true if every element is "sorted", counting the highest/rightmost value only
 bool is_sorted(std::vector<int> elements, size_t element_size)
 {
+	std::cout << "------------" << std::endl;
+	std::cout << "Is it sorted?" << std::endl;
 	size_t element_count = elements.size() / element_size;
 	print_elements(elements, element_size);
 	for (size_t i = 0; i < element_count - 1; i += 1)
