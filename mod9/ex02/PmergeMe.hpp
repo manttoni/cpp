@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 extern size_t numbers_total;
 extern int comparisons;
@@ -22,8 +23,7 @@ void print_element(auto it, size_t element_size)
 }
 
 // print whole array and split them into elements
-template <typename T>
-void print_elements(const T &elements, size_t element_size)
+void print_elements(const std::vector<int> &elements, size_t element_size)
 {
 	if (element_size == 0)
 	{
@@ -42,8 +42,7 @@ void print_elements(const T &elements, size_t element_size)
 }
 
 // print whole array as one element
-template <typename T>
-void print_numbers(const T &numbers)
+void print_numbers(const std::vector<int> &numbers)
 {
 	print_element(numbers.begin(), numbers.size());
 }
@@ -81,24 +80,16 @@ size_t search_lower(auto main_begin, size_t search_max, auto element, size_t ele
 // return true if every element is "sorted", counting the highest/rightmost value only
 bool is_sorted(std::vector<int> elements, size_t element_size)
 {
-	std::cout << "------------" << std::endl;
-	std::cout << "Is it sorted?" << std::endl;
 	size_t element_count = elements.size() / element_size;
-	print_elements(elements, element_size);
 	for (size_t i = 0; i < element_count - 1; i += 1)
 	{
 		auto curr = elements.begin() + i * element_size;
 		auto next = elements.begin() + (i + 1) * element_size;
 		int currhigh = get_highest(curr, element_size);
 		int nexthigh = get_highest(next, element_size);
-		std::cout << "Comparison: " << currhigh << " vs " << nexthigh << std::endl;
 		if (currhigh > nexthigh)
-		{
-			std::cout << " is not sorted at " << i << std::endl;
 			return false;
-		}
 	}
-	std::cout << " is sorted, count: " << element_count << std::endl;
 	return true;
 }
 
@@ -115,38 +106,30 @@ std::vector<size_t> jacobstahl(const int n)
 	return jacob;
 }
 
-template <typename T>
-void print_debug(T &elements, size_t element_size)
+void print_debug(std::vector<int> &elements, size_t element_size)
 {
 	std::cout << "--------------" << std::endl;
 	print_elements(elements, element_size);
 }
 
-template <typename T>
-void swap_pairs(T &elements, size_t element_size)
+void swap_pairs(std::vector<int> &elements, size_t element_size)
 {
 	// check if can form 2 elements
 	if (element_size * 2 > elements.size())
-	{
-		std::cout << "Can't swap" << std::endl;
 		return;
-	}
-
-	std::cout << "Swapping" << std::endl;
 
 	size_t element_count = elements.size() / element_size;
+	print_debug(elements, element_size);
 
 	// swap elements to sort
 	for (size_t i = 0; i + 1 < element_count; i += 2)
 	{
-		print_debug(elements, element_size);
 		comparisons++;
 		auto left_begin = elements.begin() + i * element_size;
 		auto right_begin = left_begin + element_size;
 
 		if (get_highest(left_begin, element_size) <= get_highest(right_begin, element_size))
 		{
-			std::cout << "No swap needed at ";
 			print_element(left_begin, element_size);
 			std::cout << std::endl;
 			continue;
@@ -183,14 +166,15 @@ std::vector<size_t> get_jacobstahl_order(const size_t element_count)
 
 void merge_insert(std::vector<int> &elements, size_t element_size)
 {
-	if (is_sorted(elements, element_size))
-		return;
 	size_t element_count = elements.size() / element_size;
 
 
-	swap_pairs(elements, element_size);
+	if (is_sorted(elements, element_size))
+		return;
 
+	swap_pairs(elements, element_size);
 	merge_insert(elements, element_size * 2);
+	print_debug(elements, element_size);
 
 	if (is_sorted(elements, element_size))
 		return;
