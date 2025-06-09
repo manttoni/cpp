@@ -4,9 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <cassert>
 
 extern size_t numbers_total;
 extern int comparisons;
+#define DEBUG false
 
 // print one element
 void print_element(auto it, size_t element_size)
@@ -25,6 +27,7 @@ void print_element(auto it, size_t element_size)
 // print whole array and split them into elements
 void print_elements(const std::vector<int> &elements, size_t element_size)
 {
+	std::cout << "{size: " << elements.size() << "} ";
 	if (element_size == 0)
 	{
 		std::cout << std::endl;
@@ -53,21 +56,22 @@ int get_highest(auto it, size_t element_size)
 }
 
 // find the lower_bound index for element in main_elements
-size_t search_lower(auto main_begin, size_t end, auto element, size_t element_size)
+size_t search_lower(const std::vector<int> &main_chain, size_t end, auto element, const size_t element_size)
 {
+	auto main_begin = main_chain.begin();
 	int ele_value = get_highest(element, element_size);
 	size_t begin = 0;
 	if (ele_value <= main_begin[element_size - 1])
 	{
-		std::cout << ele_value << " is smallest" << std::endl;
+		if (DEBUG == true) std::cout << ele_value << " is smallest" << std::endl;
 		return 0;
 	}
-	if (ele_value >= (main_begin + (end - 1) * element_size)[element_size - 1])
+	if (ele_value >= get_highest(main_begin, main_chain.size()))
 	{
-		std::cout << ele_value << " is largest" << std::endl;
-		return end;
+		if (DEBUG == true) std::cout << ele_value << " is largest" << std::endl;
+		return main_chain.size() / element_size;
 	}
-	end--; // reduce end since largest is already checked
+	begin++;
 	while (begin < end)
 	{
 		comparisons++;
@@ -75,12 +79,12 @@ size_t search_lower(auto main_begin, size_t end, auto element, size_t element_si
 		int mid_value = get_highest(main_begin + middle * element_size, element_size);
 		if (ele_value <= mid_value)
 		{
-			std::cout << ele_value << " <= " << mid_value << std::endl;
+			if (DEBUG == true) std::cout << ele_value << " <= " << mid_value << std::endl;
 			end = middle;
 		}
 		else
 		{
-			std::cout << ele_value << " > " << mid_value << std::endl;
+			if (DEBUG == true) std::cout << ele_value << " > " << mid_value << std::endl;
 			begin = middle + 1;
 		}
 	}
@@ -98,7 +102,9 @@ bool is_sorted(std::vector<int> elements, size_t element_size)
 		int currhigh = get_highest(curr, element_size);
 		int nexthigh = get_highest(next, element_size);
 		if (currhigh > nexthigh)
+		{
 			return false;
+		}
 	}
 	return true;
 }
@@ -118,8 +124,11 @@ std::vector<size_t> jacobstahl(const int n)
 
 void print_debug(std::vector<int> &elements, size_t element_size)
 {
-	std::cout << "--------------" << std::endl;
-	print_elements(elements, element_size);
+	if (DEBUG == true)
+	{
+		std::cout << "--------------" << std::endl;
+		print_elements(elements, element_size);
+	}
 }
 
 void swap_pairs(std::vector<int> &elements, size_t element_size)
@@ -140,14 +149,17 @@ void swap_pairs(std::vector<int> &elements, size_t element_size)
 
 		if (get_highest(left_begin, element_size) <= get_highest(right_begin, element_size))
 		{
-			std::cout << "No swap" << std::endl;
+			if (DEBUG == true) std::cout << "No swap" << std::endl;
 			continue;
 		}
 
-		print_element(left_begin, element_size);
-		std::cout << " <=> ";
-		print_element(right_begin, element_size);
-		std::cout << std::endl;
+		if (DEBUG == true)
+		{
+			print_element(left_begin, element_size);
+			std::cout << " <=> ";
+			print_element(right_begin, element_size);
+			std::cout << std::endl;
+		}
 
 		std::swap_ranges(left_begin, left_begin + element_size, right_begin);
 	}
@@ -163,12 +175,15 @@ std::vector<std::string> get_labels(const size_t element_count)
 		else
 			labels.push_back("a" + std::to_string(i / 2));
 	}
-	std::cout << "Labels: ";
-	for (size_t j = 0; j < labels.size(); ++j)
+
+	if (DEBUG == true)
 	{
-		std::cout << labels[j] << " ";
+		std::cout << "Labels: ";
+		for (size_t j = 0; j < labels.size(); ++j)
+			std::cout << labels[j] << " ";
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
+
 	return labels;
 }
 
@@ -190,16 +205,14 @@ std::vector<size_t> get_jacobstahl_order(const size_t len)
 	return order;
 }
 
-void merge_insert(std::vector<int> &elements, size_t element_size)
+void merge_insert(std::vector<int> &elements, const size_t element_size)
 {
-	size_t element_count = elements.size() / element_size;
-
-
+	const size_t element_count = elements.size() / element_size;
 	if (is_sorted(elements, element_size))
 		return;
 
 	swap_pairs(elements, element_size);
-	std::cout << "Comparisons: " << comparisons << std::endl;
+	if (DEBUG == true) std::cout << "Comparisons: " << comparisons << std::endl;
 	merge_insert(elements, element_size * 2);
 	print_debug(elements, element_size);
 
@@ -229,63 +242,18 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 			labels.erase(labels.begin() + i);
 	}
 
-
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
 		leftovers.push_back(elements[i]);
+
+	assert(elements.size() == main_chain.size() + pend.size() + leftovers.size());
 
 	std::vector<size_t> jacobstahl_order = get_jacobstahl_order(element_count);
 	size_t pend_size = pend.size() / element_size;
 	std::vector<bool> inserted(pend_size, false);
 	for (size_t i = 0; i < pend_size; ++i)
 	{
-		std::cout << "----------------" << std::endl;
-		std::cout << "Main chain: ";
-		print_elements(main_chain, element_size);
-		std::cout << "Labels: ";
-		for (size_t j = 0; j < labels.size(); ++j)
-		{
-			std::cout << labels[j] << " ";
-		}
-		std::cout << std::endl;
-		std::cout << "Pend: ";
-		for (size_t j = 0; j < pend_size; ++j)
-		{
-			if (inserted[j] == true)
-				continue;
-			print_element(pend.begin() + j * element_size, element_size);
-			std::cout << " ";
-		}
-		std::cout << std::endl;
-		std::cout << "Leftovers: ";
-		print_elements(leftovers, leftovers.size());
-
 		size_t jix = jacobstahl_order[i];
-		std::cout << "Jacob number: " << jix << std::endl;
 		size_t pend_i = jix - 2;
-		std::cout << "Pend index: " << pend_i << std::endl;
-		if (pend_i >= pend_size)
-		{
-			std::cout << "Cant use jacob" << std::endl;
-			for (size_t asd = 0; asd < pend_size; ++asd)
-				std::cout << inserted[asd] << " ";
-			std::cout << std::endl;
-			for (size_t j = 0; j < pend_size; ++j)
-			{
-				if (inserted[pend_size - 1 - j] == false)
-				{
-					pend_i = pend_size - 1 - j;
-					break;
-				}
-			}
-		}
-
-		if (inserted[pend_i] == true)
-			continue;
-
-		auto pend_element = pend.begin() + pend_i * element_size;
-		std::cout << "Selected pend index: " << pend_i << ", element: ";
-		print_element(pend_element, element_size);
-		std::cout << std::endl;
 
 		// define search area for binary search
 		size_t search_max = main_chain.size() / element_size;
@@ -293,18 +261,73 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		if (bound_label != labels.end())
 			search_max = std::distance(labels.begin(), bound_label) - 1;
 
-		std::cout << "Search max = " << search_max << std::endl;
-		size_t insert_ix = search_lower(main_chain.begin(), search_max, pend_element, element_size);
-		std::cout << "Comparisons: " << comparisons << std::endl;
+		if (pend_i >= pend_size || inserted[pend_i] == true)
+		{
+			if (DEBUG == true)
+				std::cout << "Cant use jacob, using next free index in reverse order" << std::endl;
+
+			for (size_t j = pend_size - 1; j + 1 >= 1; --j)
+			{
+				if (inserted[j] == false)
+				{
+					pend_i = j;
+					break;
+				}
+			}
+		}
+
+		auto pend_element = pend.begin() + pend_i * element_size;
+
+		if (DEBUG == true)
+		{
+			std::cout << "----------------" << std::endl;
+			std::cout << "Used indices: ";
+			for (size_t j = 0; j < pend_size; ++j)
+				std::cout << inserted[j] << " ";
+			std::cout << std::endl;
+			std::cout << "Main chain: ";
+			print_elements(main_chain, element_size);
+			std::cout << "Labels: ";
+			for (size_t j = 0; j < labels.size(); ++j)
+				std::cout << labels[j] << " ";
+			std::cout << std::endl;
+			std::cout << "Pend: ";
+			for (size_t j = 0; j < pend_size; ++j)
+			{
+				if (inserted[j] == true)
+					continue;
+				print_element(pend.begin() + j * element_size, element_size);
+				std::cout << " ";
+			}
+			std::cout << std::endl;
+			std::cout << "Leftovers: ";
+			print_elements(leftovers, leftovers.size());
+			std::cout << "Jacobstahl insertion order value: " << jix << std::endl;
+			std::cout << "Element count: " << element_count << ", element size: " << element_size << std::endl;
+			std::cout << "Search max: " << search_max << std::endl;
+			std::cout << "Selected pend index: " << pend_i << ", element: ";
+			print_element(pend_element, element_size);
+			std::cout << std::endl;
+		}
+
+		size_t insert_ix = search_lower(main_chain, search_max, pend_element, element_size);
+		if (DEBUG == true)
+		{
+			std::cout << "Comparisons: " << comparisons << std::endl;
+			std::cout << "Insert_ix: " << insert_ix << ", " << get_highest(pend_element, element_size) << " to " << get_highest(main_chain.begin() + insert_ix * element_size, element_size) << std::endl;
+		}
+
 		main_chain.insert(main_chain.begin() + insert_ix * element_size, pend_element, pend_element + element_size);
+		assert(is_sorted(main_chain, element_size));
 		labels.insert(labels.begin() + insert_ix, "b" + std::to_string(pend_i + 3));
-		std::cout << "Setting true to " << pend_i << std::endl;
 		inserted[pend_i] = true;
 	}
+
 
 	// replace elements with the sorted main_elements
 	elements = main_chain;
 	elements.insert(elements.end(), leftovers.begin(), leftovers.end());
+	assert(element_count == elements.size() / element_size);
 }
 
 #endif

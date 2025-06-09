@@ -46,16 +46,22 @@ int main(int argc, char **argv)
 		deq.push_back(n);
 	}
 
-	std::cout << "Before: ";
-	print_numbers(vec);
-	std::cout << std::endl;
+	//std::cout << "Before: ";
+	//print_numbers(vec);
+	//std::cout << std::endl;
 
 	merge_insert(vec, 1);
 
-	std::cout << std::endl;
-	std::cout << "After: ";
-	print_numbers(vec);
-	std::cout << std::endl;
+	//std::cout << std::endl;
+	//std::cout << "After: ";
+	//print_numbers(vec);
+	//std::cout << std::endl;
+
+	if (!is_sorted(vec, 1))
+	{
+		print_numbers(vec);
+		std::cout << std::endl;
+	}
 
 	assert(is_sorted(vec, 1));
 
