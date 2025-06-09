@@ -13,8 +13,7 @@ echo "Testing PmergeMe. Sequence lengths: $BEGIN - $END. Tests each: $TESTS"
 for ((i = BEGIN; i <= END; ++i)); do
 	for ((j = 0; j < TESTS; ++j)); do
 		INPUT=$(shuf -i 1-$END -n $i | tr "\n" " ")
-		#echo "Test $i/$j/$LIMIT: ./PmergeMe $INPUT"
-		./PmergeMe $INPUT
+		./PmergeMe $INPUT > /dev/null
 
 		if [ $? -ne 0 ]; then
 			echo "Sort failed! i = $i j = $j"

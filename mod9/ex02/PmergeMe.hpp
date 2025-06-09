@@ -3,10 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include <iomanip>
 #include <cassert>
 
-extern size_t numbers_total;
 extern int comparisons;
 #define DEBUG false
 
