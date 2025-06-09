@@ -50,12 +50,13 @@ void print_numbers(const std::vector<int> &numbers)
 	print_element(numbers.begin(), numbers.size());
 }
 
+// Rightmost number is the value of the element
 int get_highest(auto it, size_t element_size)
 {
 	return it[element_size - 1];
 }
 
-// find the lower_bound index for element in main_elements
+// find index for element to be inserted into using binary search
 size_t search_lower(const std::vector<int> &main_chain, size_t end, auto element, const size_t element_size)
 {
 	auto main_begin = main_chain.begin();
@@ -91,7 +92,7 @@ size_t search_lower(const std::vector<int> &main_chain, size_t end, auto element
 	return begin;
 }
 
-// return true if every element is "sorted", counting the highest/rightmost value only
+// return true if every element is sorted, counting the highest/rightmost value only
 bool is_sorted(std::vector<int> elements, size_t element_size)
 {
 	size_t element_count = elements.size() / element_size;
@@ -102,13 +103,12 @@ bool is_sorted(std::vector<int> elements, size_t element_size)
 		int currhigh = get_highest(curr, element_size);
 		int nexthigh = get_highest(next, element_size);
 		if (currhigh > nexthigh)
-		{
 			return false;
-		}
 	}
 	return true;
 }
 
+// sequence 1,3,5,11,21,43...
 std::vector<size_t> jacobstahl(const int n)
 {
 	std::vector<size_t> jacob = {1, 3};
@@ -131,6 +131,7 @@ void print_debug(std::vector<int> &elements, size_t element_size)
 	}
 }
 
+// swap adjacent elements to sort. left ones index % 2 == 0
 void swap_pairs(std::vector<int> &elements, size_t element_size)
 {
 	// check if can form 2 elements
@@ -187,6 +188,7 @@ std::vector<std::string> get_labels(const size_t element_count)
 	return labels;
 }
 
+// get order in which pend elements are inserted to main chain
 std::vector<size_t> get_jacobstahl_order(const size_t len)
 {
 	std::vector<size_t> order;
@@ -198,9 +200,7 @@ std::vector<size_t> get_jacobstahl_order(const size_t len)
 		size_t curr = jacob_numbers[i];
 		size_t diff = curr - prev;
 		for (size_t j = diff; j > 0; --j)
-		{
 			order.push_back(prev + j);
-		}
 	}
 	return order;
 }
@@ -226,21 +226,15 @@ void merge_insert(std::vector<int> &elements, const size_t element_size)
 	{
 		auto element = elements.begin() + i * element_size;
 		if (labels[i].front() == 'a' || i == 0)
-		{
 			main_chain.insert(main_chain.end(), element, element + element_size);
-		}
 		else
-		{
 			pend.insert(pend.end(), element, element + element_size);
-		}
 	}
 
 	// erase pend labels
 	for (size_t i = element_count - 1; i + 1 >= 1; --i)
-	{
 		if (labels[i].front() == 'b' && labels[i].back() != '0')
 			labels.erase(labels.begin() + i);
-	}
 
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
 		leftovers.push_back(elements[i]);
