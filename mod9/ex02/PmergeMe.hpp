@@ -162,10 +162,8 @@ std::vector<size_t> get_jacobstahl_order(const size_t len)
 
 	for (size_t i = 1; i < jacob_numbers.size(); ++i)
 	{
-		std::cout << "asd" << std::endl;
 		size_t prev = jacob_numbers[i - 1];
 		size_t curr = jacob_numbers[i];
-		std::cout << "curr: " << curr << " prev: " << prev << std::endl;
 		size_t diff = curr - prev;
 		for (size_t j = diff; j > 0; --j)
 		{
@@ -214,7 +212,14 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		std::cout << "Main chain: ";
 		print_elements(main_chain, element_size);
 		std::cout << "Pend: ";
-		print_elements(pend, element_size);
+		for (size_t j = 0; j < pend_size; ++j)
+		{
+			if (inserted[j] == true)
+				continue;
+			print_element(pend.begin() + j * element_size, element_size);
+			std::cout << " ";
+		}
+		std::cout << std::endl;
 		std::cout << "Leftovers: ";
 		print_elements(leftovers, leftovers.size());
 
