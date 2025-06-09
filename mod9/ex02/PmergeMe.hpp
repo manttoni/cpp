@@ -95,7 +95,7 @@ bool is_sorted(std::vector<int> elements, size_t element_size)
 
 std::vector<size_t> jacobstahl(const int n)
 {
-	std::vector<size_t> jacob = {0, 1};
+	std::vector<size_t> jacob = {1, 3};
 	while (true)
 	{
 		int next = jacob.back() + jacob[jacob.size() - 2] * 2;
@@ -130,8 +130,6 @@ void swap_pairs(std::vector<int> &elements, size_t element_size)
 
 		if (get_highest(left_begin, element_size) <= get_highest(right_begin, element_size))
 		{
-			print_element(left_begin, element_size);
-			std::cout << std::endl;
 			continue;
 		}
 
@@ -157,10 +155,23 @@ std::vector<std::string> get_labels(const size_t element_count)
 	return labels;
 }
 
-std::vector<size_t> get_jacobstahl_order(const size_t element_count)
+std::vector<size_t> get_jacobstahl_order(const size_t len)
 {
-	(void) element_count;
-	std::vector<size_t> order = {3,2,5,4,11,10,9,8,7,6};
+	std::vector<size_t> order;
+	std::vector<size_t> jacob_numbers = jacobstahl(len);
+
+	for (size_t i = 1; i < jacob_numbers.size(); ++i)
+	{
+		std::cout << "asd" << std::endl;
+		size_t prev = jacob_numbers[i - 1];
+		size_t curr = jacob_numbers[i];
+		std::cout << "curr: " << curr << " prev: " << prev << std::endl;
+		size_t diff = curr - prev;
+		for (size_t j = diff; j > 0; --j)
+		{
+			order.push_back(prev + j);
+		}
+	}
 	return order;
 }
 
