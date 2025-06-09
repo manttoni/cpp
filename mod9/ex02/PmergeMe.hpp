@@ -53,11 +53,21 @@ int get_highest(auto it, size_t element_size)
 }
 
 // find the lower_bound index for element in main_elements
-size_t search_lower(auto main_begin, size_t search_max, auto element, size_t element_size)
+size_t search_lower(auto main_begin, size_t end, auto element, size_t element_size)
 {
 	int ele_value = get_highest(element, element_size);
 	size_t begin = 0;
-	size_t end = search_max;
+	if (ele_value <= main_begin[element_size - 1])
+	{
+		std::cout << ele_value << " is smallest" << std::endl;
+		return 0;
+	}
+	if (ele_value >= (main_begin + (end - 1) * element_size)[element_size - 1])
+	{
+		std::cout << ele_value << " is largest" << std::endl;
+		return end;
+	}
+	end--; // reduce end since largest is already checked
 	while (begin < end)
 	{
 		comparisons++;
@@ -130,6 +140,7 @@ void swap_pairs(std::vector<int> &elements, size_t element_size)
 
 		if (get_highest(left_begin, element_size) <= get_highest(right_begin, element_size))
 		{
+			std::cout << "No swap" << std::endl;
 			continue;
 		}
 
@@ -148,10 +159,16 @@ std::vector<std::string> get_labels(const size_t element_count)
 	for (size_t i = 0; i < element_count; ++i)
 	{
 		if (i % 2 == 0)
-			labels.push_back("b" + std::to_string(i));
+			labels.push_back("b" + std::to_string(i / 2));
 		else
-			labels.push_back("a" + std::to_string(i));
+			labels.push_back("a" + std::to_string(i / 2));
 	}
+	std::cout << "Labels: ";
+	for (size_t j = 0; j < labels.size(); ++j)
+	{
+		std::cout << labels[j] << " ";
+	}
+	std::cout << std::endl;
 	return labels;
 }
 
@@ -182,6 +199,7 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		return;
 
 	swap_pairs(elements, element_size);
+	std::cout << "Comparisons: " << comparisons << std::endl;
 	merge_insert(elements, element_size * 2);
 	print_debug(elements, element_size);
 
@@ -195,10 +213,22 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 	{
 		auto element = elements.begin() + i * element_size;
 		if (labels[i].front() == 'a' || i == 0)
+		{
 			main_chain.insert(main_chain.end(), element, element + element_size);
+		}
 		else
+		{
 			pend.insert(pend.end(), element, element + element_size);
+		}
 	}
+
+	// erase pend labels
+	for (size_t i = element_count - 1; i + 1 >= 1; --i)
+	{
+		if (labels[i].front() == 'b' && labels[i].back() != '0')
+			labels.erase(labels.begin() + i);
+	}
+
 
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
 		leftovers.push_back(elements[i]);
@@ -211,6 +241,12 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		std::cout << "----------------" << std::endl;
 		std::cout << "Main chain: ";
 		print_elements(main_chain, element_size);
+		std::cout << "Labels: ";
+		for (size_t j = 0; j < labels.size(); ++j)
+		{
+			std::cout << labels[j] << " ";
+		}
+		std::cout << std::endl;
 		std::cout << "Pend: ";
 		for (size_t j = 0; j < pend_size; ++j)
 		{
@@ -235,9 +271,9 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 			std::cout << std::endl;
 			for (size_t j = 0; j < pend_size; ++j)
 			{
-				if (inserted[j] == false)
+				if (inserted[pend_size - 1 - j] == false)
 				{
-					pend_i = j;
+					pend_i = pend_size - 1 - j;
 					break;
 				}
 			}
@@ -255,10 +291,11 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		size_t search_max = main_chain.size() / element_size;
 		auto bound_label = std::find(labels.begin(), labels.end(), "a" + std::to_string(jix));
 		if (bound_label != labels.end())
-			search_max = std::distance(labels.begin(), bound_label);
+			search_max = std::distance(labels.begin(), bound_label) - 1;
 
 		std::cout << "Search max = " << search_max << std::endl;
 		size_t insert_ix = search_lower(main_chain.begin(), search_max, pend_element, element_size);
+		std::cout << "Comparisons: " << comparisons << std::endl;
 		main_chain.insert(main_chain.begin() + insert_ix * element_size, pend_element, pend_element + element_size);
 		labels.insert(labels.begin() + insert_ix, "b" + std::to_string(pend_i + 3));
 		std::cout << "Setting true to " << pend_i << std::endl;
