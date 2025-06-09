@@ -251,7 +251,13 @@ void merge_insert(std::vector<int> &elements, size_t element_size)
 		print_element(pend_element, element_size);
 		std::cout << std::endl;
 
+		// define search area for binary search
 		size_t search_max = main_chain.size() / element_size;
+		auto bound_label = std::find(labels.begin(), labels.end(), "a" + std::to_string(jix));
+		if (bound_label != labels.end())
+			search_max = std::distance(labels.begin(), bound_label);
+
+		std::cout << "Search max = " << search_max << std::endl;
 		size_t insert_ix = search_lower(main_chain.begin(), search_max, pend_element, element_size);
 		main_chain.insert(main_chain.begin() + insert_ix * element_size, pend_element, pend_element + element_size);
 		labels.insert(labels.begin() + insert_ix, "b" + std::to_string(pend_i + 3));
