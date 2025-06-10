@@ -75,6 +75,8 @@ size_t search_lower(const T &main_chain, size_t end, const auto element, const s
 	{
 		comparisons++;
 		size_t middle = begin + (end - begin) / 2;
+		auto middle_it = main_chain.begin() + middle * element_size;
+		assert(middle_it < main_chain.end());
 		int mid_value = get_highest(main_begin + middle * element_size, element_size);
 		if (ele_value <= mid_value)
 		{

@@ -76,19 +76,21 @@ void merge_insert_vector(std::vector<int> &elements, const size_t element_size)
 	}
 
 	for (size_t i = element_count - 1; i + 1 >= 1; --i)
-		if (labels[i].front() == 'b' && labels[i].back() != '0')
+		if (labels[i].front() == 'b' && labels[i][1] != '0')
 			labels.erase(labels.begin() + i);
 
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
 		leftovers.push_back(elements[i]);
 
 	assert(elements.size() == main_chain.size() + pend.size() + leftovers.size());
+	assert(main_chain.size() / element_size == labels.size());
 
 	std::vector<size_t> jacobstahl_order = get_jacobstahl_order_vector(element_count);
 	size_t pend_size = pend.size() / element_size;
 	std::vector<bool> inserted(pend_size, false);
 	for (size_t i = 0; i < pend_size; ++i)
 	{
+		assert(main_chain.size() / element_size == labels.size());
 		size_t jix = jacobstahl_order[i];
 		size_t pend_i = jix - 2;
 
@@ -97,6 +99,7 @@ void merge_insert_vector(std::vector<int> &elements, const size_t element_size)
 		if (bound_label != labels.end())
 			search_max = std::distance(labels.begin(), bound_label) - 1;
 
+		assert(search_max <= main_chain.size() / element_size);
 		if (pend_i >= pend_size || inserted[pend_i] == true)
 		{
 			for (size_t j = pend_size - 1; j + 1 >= 1; --j)
@@ -113,7 +116,7 @@ void merge_insert_vector(std::vector<int> &elements, const size_t element_size)
 		size_t insert_ix = search_lower(main_chain, search_max, pend_element, element_size);
 		main_chain.insert(main_chain.begin() + insert_ix * element_size, pend_element, pend_element + element_size);
 		assert(is_sorted(main_chain, element_size));
-		labels.insert(labels.begin() + insert_ix, "b" + std::to_string(pend_i + 3));
+		labels.insert(labels.begin() + insert_ix, "b" + std::to_string(pend_i + 2));
 		inserted[pend_i] = true;
 	}
 	elements = main_chain;
@@ -189,7 +192,7 @@ void merge_insert_deque(std::deque<int> &elements, const size_t element_size)
 	}
 
 	for (size_t i = element_count - 1; i + 1 >= 1; --i)
-		if (labels[i].front() == 'b' && labels[i].back() != '0')
+		if (labels[i].front() == 'b' && labels[i][1] != '0')
 			labels.erase(labels.begin() + i);
 
 	for (size_t i = element_count * element_size; i < elements.size(); ++i)
