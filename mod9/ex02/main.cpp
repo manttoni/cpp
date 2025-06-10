@@ -46,41 +46,29 @@ int main(int argc, char **argv)
 		deq.push_back(n);
 	}
 
-	//std::cout << "Before: ";
-	//print_numbers(vec);
-	//std::cout << std::endl;
+	std::cout << "Before: ";
+	print_numbers(vec);
+	std::cout << std::endl;
 
-	merge_insert(vec, 1);
-
-	//std::cout << std::endl;
-	//std::cout << "After: ";
-	//print_numbers(vec);
-	//std::cout << std::endl;
-
-	if (!is_sorted(vec, 1))
-	{
-		print_numbers(vec);
-		std::cout << std::endl;
-	}
-
-	assert(is_sorted(vec, 1));
-
-	std::cout << "Comparisons: " << comparisons << std::endl;
-	/*
 	auto start = std::chrono::high_resolution_clock::now();
-	vec = PmergeMe(vec);
+	merge_insert_vector(vec, 1);
 	auto end = std::chrono::high_resolution_clock::now();
-	auto vectorDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	auto vectorDuration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
 	start = std::chrono::high_resolution_clock::now();
-	deq = PmergeMe(deq);
+	merge_insert_deque(deq, 1);
 	end = std::chrono::high_resolution_clock::now();
-	auto dequeDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	*/
+	auto dequeDuration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
+	std::cout << "After: ";
+	print_numbers(vec);
+	std::cout << std::endl;
 
-//	std::cout << "[std::vector] Numbers: " << argc - 1 << " Time: " << vectorDuration.count() << " ms" << std::endl;
-//	std::cout << "[std::deque]  Numbers: " << argc - 1 << " Time: " << dequeDuration.count() << " ms" << std::endl;
+	assert(is_sorted(vec, 1));
+	assert(is_sorted(deq, 1));
+
+	std::cout << "[std::vector] Numbers: " << argc - 1 << " Time: " << vectorDuration.count() << " us" << std::endl;
+	std::cout << "[std::deque]  Numbers: " << argc - 1 << " Time: " << dequeDuration.count() << " us" << std::endl;
 
 	return 0;
 }
